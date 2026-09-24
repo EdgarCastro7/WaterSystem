@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WaterSystem.Data;
 using WaterSystem.Data.Entities;
+using WaterSystem.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,10 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 var app = builder.Build();
 
