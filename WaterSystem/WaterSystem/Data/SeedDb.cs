@@ -41,7 +41,7 @@ namespace WaterSystem.Data
                     Address = "Rua da Serra 30",
                 };
 
-                var result = await _userHelper.AddUserAsync(user, "123456");
+                var result = await _userHelper.AddUserAsync(user, "Admin123!");
 
                 if (result != IdentityResult.Success)
                 {
