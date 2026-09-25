@@ -24,9 +24,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddTransient<SeedDb>();
+
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 var app = builder.Build();
+
+RunSeeding(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -50,3 +54,14 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+static void RunSeeding(WebApplication app)
+{
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetService<SeedDb>();
+        seeder.SeedAsync().Wait();
+    }
+}
