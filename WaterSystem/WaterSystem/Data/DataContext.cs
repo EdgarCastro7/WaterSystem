@@ -10,5 +10,7 @@ namespace WaterSystem.Data
         {
             
         }
+
+        public DbSet<Consumption> Consumptions { get; set; }
     }
 }

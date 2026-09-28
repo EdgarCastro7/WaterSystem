@@ -28,6 +28,8 @@ builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 var app = builder.Build();
 
 RunSeeding(app);
