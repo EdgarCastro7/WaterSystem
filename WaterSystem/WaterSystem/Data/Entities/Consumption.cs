@@ -8,8 +8,8 @@
 
         public decimal Volume { get; set; }
 
-        public string UserId { get; set; }
+        public int MeterId { get; set; }
 
-        public User User { get; set; }
+        public Meter Meter { get; set; }
     }
 }
