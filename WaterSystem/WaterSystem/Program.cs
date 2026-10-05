@@ -28,7 +28,13 @@ builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 
-builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IConsumptionRepository, ConsumptionRepository>();
+
+builder.Services.AddScoped<IMeterRepository, MeterRepository>();
+
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 
