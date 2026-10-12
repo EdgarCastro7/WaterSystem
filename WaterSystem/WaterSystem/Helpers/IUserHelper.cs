@@ -35,5 +35,10 @@ namespace WaterSystem.Helpers
         Task<IdentityResult> UpdateUserAsync(User user);
 
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
+
+        Task<IEnumerable<User>> GetUsersAsync();
+
+        Task<IEnumerable<User>> GetUsersByRoleAsync(string roleName);
+
     }
 }

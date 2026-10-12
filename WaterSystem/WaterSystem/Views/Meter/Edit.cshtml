@@ -1,0 +1,38 @@
+﻿@model WaterSystem.Data.Entities.Meter
+
+@{
+    ViewData["Title"] = "Edit Meter";
+}
+
+<h1>Edit Meter</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="InstallationDate" class="control-label">Installation Date</label>
+                <input asp-for="InstallationDate" type="date" class="form-control" />
+                <span asp-validation-for="InstallationDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label">Active</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

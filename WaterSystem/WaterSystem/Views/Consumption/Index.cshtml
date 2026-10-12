@@ -1,0 +1,28 @@
+﻿@model IEnumerable<WaterSystem.Data.Entities.Consumption>
+
+@{
+    ViewData["Title"] = "Consumos";
+}
+
+<h1>Consumos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Volume (m³)</th>
+            <th>Contador</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var consumption in Model)
+        {
+            <tr>
+                <td>@consumption.Date.ToShortDateString()</td>
+                <td>@consumption.Volume</td>
+                <td>@consumption.MeterId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

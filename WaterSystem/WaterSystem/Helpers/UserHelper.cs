@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WaterSystem.Data.Entities;
 using WaterSystem.Models;
 
@@ -72,6 +73,20 @@ namespace WaterSystem.Helpers
         public async Task<User> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<IEnumerable<User>> GetUsersAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            return users;
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(string roleName)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
+
+            return users;
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)

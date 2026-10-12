@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WaterSystem.Data.Entities.Meter>
+
+@{
+    ViewData["Title"] = "Meters";
+}
+
+<h1>Meters</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create Meter</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Installation Date</th>
+            <th>Status</th>
+            <th>Client</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var meter in Model)
+        {
+            <tr>
+                <td>@meter.InstallationDate.ToString("dd/MM/yyyy")</td>
+                <td>@(meter.IsActive ? "Active" : "Inactive")</td>
+                <td>@meter.UserId</td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit"
+                           asp-route-id="@meter.Id"
+                           class="btn btn-warning btn-sm">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -22,11 +22,18 @@ namespace WaterSystem.Data
             return exists;
         }
 
-        public async Task<IEnumerable<Consumption>> GetConsumptionAsync(Meter meter)
+        public async Task<IEnumerable<Consumption>> GetConsumptionsAsync(Meter meter)
         {
             var consumption = await _context.Consumptions.Where(m => m.MeterId == meter.Id).ToListAsync();
 
             return consumption;
+        }
+
+        public async Task<IEnumerable<Consumption>> GetConsumptionsAsync()
+        {
+            var consumptions = await _context.Consumptions.ToListAsync();
+
+            return consumptions;
         }
 
         public async Task<Consumption> GetLastConsumptionAsync(Meter meter)
