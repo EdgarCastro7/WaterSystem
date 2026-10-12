@@ -22,11 +22,25 @@ namespace WaterSystem.Controllers
             _userHelper = userHelper;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var meters = await _genericRepository.GetAll().ToListAsync();
+            if (User.IsInRole("Admin"))
+            {
+                var meters = await _genericRepository.GetAll().ToListAsync();
+                return View(meters);
+            }
 
-            return View(meters);
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity!.Name!);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            var userMeters = await _meterRepository.GetMeterAsync(user);
+
+            return View(userMeters);
         }
 
         [Authorize(Roles = "Admin")]
@@ -34,7 +48,7 @@ namespace WaterSystem.Controllers
         {
             var clients = await _userHelper.GetUsersByRoleAsync("Client");
 
-            ViewBag.Clients = clients;
+            ViewBag.Clients = clients.Where(c => c.IsActive);
 
             return View();
         }
@@ -48,20 +62,27 @@ namespace WaterSystem.Controllers
             {
                 var client = await _userHelper.GetUserByIdAsync(meter.UserId);
 
-                if (client == null || !await _userHelper.IsUserInRoleAsync(client, "Client"))
+                if (client == null ||
+                    !await _userHelper.IsUserInRoleAsync(client, "Client") ||
+                    !client.IsActive)
                 {
-                    ModelState.AddModelError("UserID", "Please select a valid client");
-                    ViewBag.Client = await _userHelper.GetUsersByRoleAsync("Client");
+                    ModelState.AddModelError("UserId", "Please select an active client.");
+
+                    var activeClients = await _userHelper.GetUsersByRoleAsync("Client");
+                    ViewBag.Clients = activeClients.Where(c => c.IsActive);
+
                     return View(meter);
                 }
 
                 meter.IsActive = true;
 
                 await _genericRepository.CreateAsync(meter);
+
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Clients = await _userHelper.GetUsersByRoleAsync("Client");
+            var clients = await _userHelper.GetUsersByRoleAsync("Client");
+            ViewBag.Clients = clients.Where(c => c.IsActive);
 
             return View(meter);
         }
@@ -109,6 +130,24 @@ namespace WaterSystem.Controllers
                 await _genericRepository.UpdateAsync(existingMeter);
 
                 return RedirectToAction(nameof(Index));
+            }
+
+            return View(meter);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var meter = await _genericRepository.GetByIdAsync(id.Value);
+
+            if (meter == null)
+            {
+                return NotFound();
             }
 
             return View(meter);

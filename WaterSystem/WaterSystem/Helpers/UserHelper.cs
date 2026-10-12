@@ -26,9 +26,9 @@ namespace WaterSystem.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task AddUserToRoleAsync(User user, string roleName)
+        public async Task<IdentityResult> AddUserToRoleAsync(User user, string roleName)
         {
-            await _userManager.AddToRoleAsync(user, roleName);
+            return await _userManager.AddToRoleAsync(user, roleName);
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
@@ -117,6 +117,11 @@ namespace WaterSystem.Helpers
         public async Task<SignInResult> ValidatePasswordAsync(User user,string password)
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(User user)
+        {
+            return await _userManager.DeleteAsync(user);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WaterSystem.Helpers
     {
         Task<IdentityResult> AddUserAsync(User user, string password);
 
-        Task AddUserToRoleAsync(User user, string roleName);
+        Task<IdentityResult> AddUserToRoleAsync(User user, string roleName);
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
 
@@ -39,6 +39,8 @@ namespace WaterSystem.Helpers
         Task<IEnumerable<User>> GetUsersAsync();
 
         Task<IEnumerable<User>> GetUsersByRoleAsync(string roleName);
+
+        Task<IdentityResult> DeleteUserAsync(User user);
 
     }
 }

@@ -26,24 +26,34 @@ namespace WaterSystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
+                if (user == null || !user.IsActive)
+                {
+                    ModelState.AddModelError(string.Empty,"Invalid login attempt.");
+
+                    return View(model);
+                }
+
                 var result = await _userHelper.LogInAsync(model);
 
                 if (result.Succeeded)
                 {
-                    if (this.Request.Query.Keys.Contains("ReturnUrl"))
+                    if (Request.Query.ContainsKey("ReturnUrl"))
                     {
-                        return Redirect(this.Request.Query["ReturnUrl"].First());
+                        return Redirect(Request.Query["ReturnUrl"].First());
                     }
 
-                    return this.RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
-            this.ModelState.AddModelError(string.Empty, "Failed to login");
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
 

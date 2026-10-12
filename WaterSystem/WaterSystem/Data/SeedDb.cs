@@ -47,12 +47,11 @@ namespace WaterSystem.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
-
-                await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
-            if(!isInRole)
+
+            if (!isInRole)
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
