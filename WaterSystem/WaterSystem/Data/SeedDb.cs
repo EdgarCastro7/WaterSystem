@@ -39,6 +39,7 @@ namespace WaterSystem.Data
                     UserName = "edgarcastro@gmail.com",
                     PhoneNumber = "123123123",
                     Address = "Rua da Serra 30",
+                    IsActive = true
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "Admin123!");
@@ -54,6 +55,33 @@ namespace WaterSystem.Data
             if (!isInRole)
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+
+            var client = await _userHelper.GetUserByEmailAsync("client@gmail.com");
+
+            if (client == null)
+            {
+                client = new User
+                {
+                    FirstName = "Test",
+                    LastName = "Client",
+                    Email = "client@gmail.com",
+                    UserName = "client@gmail.com",
+                    PhoneNumber = "910000000",
+                    Address = "Test Street, Lisbon",
+                    IsActive = true
+                };
+
+                var result = await _userHelper.AddUserAsync(
+                    client, "Client123!");
+
+                if (!result.Succeeded)
+                {
+                    throw new InvalidOperationException(
+                        "Could not create the test client.");
+                }
+
+                await _userHelper.AddUserToRoleAsync(client, "Client");
             }
         }
     }

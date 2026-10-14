@@ -1,6 +1,6 @@
-﻿@using Microsoft.AspNetCore.Mvc.Rendering
+﻿@model WaterSystem.Data.Entities.Meter
+@using Microsoft.AspNetCore.Mvc.Rendering
 @using WaterSystem.Data.Entities
-@model Meter
 
 @{
     ViewData["Title"] = "Create Meter";
@@ -9,7 +9,11 @@
 
 <h1>Create Meter</h1>
 
-<form asp-action="Create" method="post">
+<form asp-controller="Meter" asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="form-group mb-3">
         <label asp-for="UserId" class="control-label">Client</label>
         <select asp-for="UserId" class="form-control"
@@ -28,3 +32,9 @@
     <button type="submit" class="btn btn-primary">Create</button>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

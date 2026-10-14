@@ -28,7 +28,7 @@
             <tr>
                 <td>@meter.InstallationDate.ToString("dd/MM/yyyy")</td>
                 <td>@(meter.IsActive ? "Active" : "Inactive")</td>
-                <td>@meter.UserId</td>
+                <td>@meter.User?.FullName</td>
                 <td>
                     @if (User.IsInRole("Admin"))
                     {

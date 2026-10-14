@@ -27,7 +27,7 @@ namespace WaterSystem.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                var meters = await _genericRepository.GetAll().ToListAsync();
+                var meters = await _genericRepository.GetAll().Include(m => m.User).ToListAsync();
                 return View(meters);
             }
 
@@ -58,33 +58,32 @@ namespace WaterSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Meter meter)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var client = await _userHelper.GetUserByIdAsync(meter.UserId);
+                var errors = ModelState
+                    .Where(x => x.Value != null && x.Value.Errors.Count > 0)
+                    .SelectMany(x => x.Value!.Errors)
+                    .Select(x => x.ErrorMessage);
 
-                if (client == null ||
-                    !await _userHelper.IsUserInRoleAsync(client, "Client") ||
-                    !client.IsActive)
-                {
-                    ModelState.AddModelError("UserId", "Please select an active client.");
+                var errorMessage = string.Join(" | ", errors);
 
-                    var activeClients = await _userHelper.GetUsersByRoleAsync("Client");
-                    ViewBag.Clients = activeClients.Where(c => c.IsActive);
-
-                    return View(meter);
-                }
-
-                meter.IsActive = true;
-
-                await _genericRepository.CreateAsync(meter);
-
-                return RedirectToAction(nameof(Index));
+                return BadRequest($"Invalid model: {errorMessage}");
             }
 
-            var clients = await _userHelper.GetUsersByRoleAsync("Client");
-            ViewBag.Clients = clients.Where(c => c.IsActive);
+            var client = await _userHelper.GetUserByIdAsync(meter.UserId);
 
-            return View(meter);
+            if (client == null ||
+                !await _userHelper.IsUserInRoleAsync(client, "Client") ||
+                !client.IsActive)
+            {
+                return BadRequest("The selected client is invalid, inactive, or does not have the Client role.");
+            }
+
+            meter.IsActive = true;
+
+            await _genericRepository.CreateAsync(meter);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin")]
