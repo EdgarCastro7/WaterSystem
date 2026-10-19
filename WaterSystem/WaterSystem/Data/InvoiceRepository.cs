@@ -44,6 +44,11 @@ namespace WaterSystem.Data
             return invoices;
         }
 
+        public async Task<bool> ExistsByConsumptionAsync(int consumptionId)
+        {
+            return await _context.Invoices.AnyAsync(i => i.ConsumptionId == consumptionId);
+        }
+
         public async Task<Invoice?> GetLastInvoiceAsync(User user)
         {
             var invoice = await _context.Invoices

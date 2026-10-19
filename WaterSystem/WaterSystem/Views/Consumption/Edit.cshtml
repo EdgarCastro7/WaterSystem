@@ -1,0 +1,44 @@
+﻿@model WaterSystem.Models.ConsumptionViewModel
+
+@{
+    ViewData["Title"] = "Edit Consumption";
+}
+
+<h1>Edit Consumption</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="MeterId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Date" class="control-label">Reading Date</label>
+                <input asp-for="Date" type="date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Volume" class="control-label">Meter Reading (m³)</label>
+                <input asp-for="Volume" type="number" step="0.01" min="0.01" class="form-control" />
+                <span asp-validation-for="Volume" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

@@ -1,26 +1,44 @@
 ﻿@model IEnumerable<WaterSystem.Data.Entities.Consumption>
 
 @{
-    ViewData["Title"] = "Consumos";
+    ViewData["Title"] = "Consumptions";
 }
 
-<h1>Consumos</h1>
+<h1>Consumptions</h1>
+
+@if (User.IsInRole("Employee") || User.IsInRole("Client"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create Consumption</a>
+    </p>
+}
 
 <table class="table">
     <thead>
         <tr>
-            <th>Data</th>
-            <th>Volume (m³)</th>
-            <th>Contador</th>
+            <th>Meter</th>
+            <th>Reading Date</th>
+            <th>Meter Reading (m³)</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var consumption in Model)
         {
             <tr>
+                <td>@consumption.MeterId</td>
                 <td>@consumption.Date.ToShortDateString()</td>
                 <td>@consumption.Volume</td>
-                <td>@consumption.MeterId</td>
+                <td>
+                    @if (User.IsInRole("Employee") || User.IsInRole("Client"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@consumption.Id"
+                           class="btn btn-warning">Edit</a>
+
+                        <a asp-action="Delete" asp-route-id="@consumption.Id"
+                           class="btn btn-danger">Delete</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>

@@ -12,6 +12,8 @@ namespace WaterSystem.Data
 
         Task<IEnumerable<Invoice>> GetInvoicesByPaymentAsync(bool payment);
 
+        Task<bool> ExistsByConsumptionAsync(int consumptionId);
+
         Task<Invoice?> GetLastInvoiceAsync(User user);
 
         Task<Invoice?> GetLastInvoiceToPayAsync(User user);

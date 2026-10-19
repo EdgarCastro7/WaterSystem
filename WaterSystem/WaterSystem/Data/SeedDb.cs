@@ -77,11 +77,35 @@ namespace WaterSystem.Data
 
                 if (!result.Succeeded)
                 {
-                    throw new InvalidOperationException(
-                        "Could not create the test client.");
+                    throw new InvalidOperationException("Could not create the test client.");
                 }
 
                 await _userHelper.AddUserToRoleAsync(client, "Client");
+            }
+
+            var func = await _userHelper.GetUserByEmailAsync("func@gmail.com");
+
+            if (func == null)
+            {
+                func = new User
+                {
+                    FirstName = "Test",
+                    LastName = "Func",
+                    Email = "func@gmail.com",
+                    UserName = "func@gmail.com",
+                    PhoneNumber = "910000000",
+                    Address = "Test Street, Lisbon",
+                    IsActive = true
+                };
+
+                var result = await _userHelper.AddUserAsync(func, "Func123!");
+
+                if (!result.Succeeded)
+                {
+                    throw new InvalidOperationException("Could not create the test func.");
+                }
+
+                await _userHelper.AddUserToRoleAsync(func, "Employee");
             }
         }
     }

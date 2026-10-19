@@ -15,5 +15,6 @@ namespace WaterSystem.Data
         Task DeleteAsync(T entity);
 
         Task<bool> ExistAsync(int id);
+
     }
 }
