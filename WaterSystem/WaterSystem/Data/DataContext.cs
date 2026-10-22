@@ -17,6 +17,8 @@ namespace WaterSystem.Data
 
         public DbSet<Invoice> Invoices { get; set; }
 
+        public DbSet<MeterRequest> MeterRequests { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
