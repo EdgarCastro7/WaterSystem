@@ -22,15 +22,5 @@ namespace WaterSystem.Models
         [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characters length.")]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [MinLength(6)]
-        public string Password { get; set; }
-
-
-        [Required]
-        [Compare("Password")]
-        [Display(Name = "Confirm Password")]
-        public string ConfirmPassword { get; set; }
-
     }
 }

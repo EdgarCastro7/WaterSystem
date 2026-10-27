@@ -33,7 +33,7 @@ namespace WaterSystem.Controllers
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
-                if (user == null || !user.IsActive)
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty,"Invalid login attempt.");
 
@@ -61,43 +61,6 @@ namespace WaterSystem.Controllers
         {
             await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Register()
-        {
-            var model = new RegisterNewUserViewModel();
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
-
-                if (user == null)
-                {
-                    user = new User
-                    {
-                        UserName = model.Username,
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Address = model.Address,
-                        PhoneNumber = model.PhoneNumber,
-                    };
-
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-
-                    if (result != IdentityResult.Success)
-                    {
-                        ModelState.AddModelError(string.Empty, "The user couldn't be created");
-                        return View(model);
-                    }
-                }
-            }
-            return View(model);
         }
 
         public async Task<IActionResult> ChangeUser()
@@ -142,6 +105,59 @@ namespace WaterSystem.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                return NotFound();
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(model.UserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userHelper.ResetPasswordAsync(
+                user,
+                model.Token,
+                model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
+        }
+
+
         public async Task<IActionResult> ChangePassword()
         {
             return View();
@@ -173,8 +189,6 @@ namespace WaterSystem.Controllers
             }
             return this.View(model);
         }
-
-
 
     }
 }

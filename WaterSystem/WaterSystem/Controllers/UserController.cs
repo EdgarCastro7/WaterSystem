@@ -11,10 +11,12 @@ namespace WaterSystem.Controllers
     public class UserController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IMailHelper _mailHelper;
 
-        public UserController(IUserHelper userHelper)
+        public UserController(IUserHelper userHelper, IMailHelper mailHelper)
         {
             _userHelper = userHelper;
+            _mailHelper = mailHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -64,10 +66,12 @@ namespace WaterSystem.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Address = model.Address,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                IsActive = true,
             };
 
-            var result = await _userHelper.AddUserAsync(user, model.Password);
+            var temporaryPassword = Guid.NewGuid().ToString("N") + "aA1!";
+            var result = await _userHelper.AddUserAsync(user, temporaryPassword);
 
             if (!result.Succeeded)
             {
@@ -101,6 +105,36 @@ namespace WaterSystem.Controllers
                 return View(model);
             }
 
+            var token = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+            var resetLink = Url.Action(
+                "ResetPassword",
+                "Account",
+                new
+                {
+                    userId = user.Id,
+                    token = token
+                },
+                protocol: Request.Scheme);
+
+
+            var response = _mailHelper.SendEmail(
+    user.Email!,
+    "Define your WaterSystem password",
+    $"<h2>Welcome to WaterSystem</h2>" +
+    $"<p>Click the link below to define your password:</p>" +
+    $"<a href=\"{resetLink}\">Define password</a>");
+
+            if (!response.IsSuccess)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    "The user was created, but the password setup email could not be sent.");
+
+                ViewBag.Roles = new List<string> { "Client", "Employee" };
+                return View(model);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -125,7 +159,8 @@ namespace WaterSystem.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Address = user.Address,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive,
             };
 
             return View(model);
@@ -164,6 +199,7 @@ namespace WaterSystem.Controllers
             user.LastName = model.LastName;
             user.Address = model.Address;
             user.PhoneNumber = model.PhoneNumber;
+            user.IsActive = model.IsActive;
 
             var result = await _userHelper.UpdateUserAsync(user);
 
@@ -245,6 +281,55 @@ namespace WaterSystem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userHelper.DeleteUserAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(user);
             }
 
             return RedirectToAction(nameof(Index));

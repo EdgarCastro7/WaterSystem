@@ -25,5 +25,7 @@ namespace WaterSystem.Models
         [Display(Name = "Phone Number")]
         [Phone]
         public string? PhoneNumber { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
