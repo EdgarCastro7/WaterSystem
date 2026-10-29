@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using WaterSystem.Data.Entities;
 using WaterSystem.Helpers;
 using WaterSystem.Models;
@@ -189,6 +190,5 @@ namespace WaterSystem.Controllers
             }
             return this.View(model);
         }
-
     }
 }

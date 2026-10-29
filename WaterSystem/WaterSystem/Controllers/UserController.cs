@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WaterSystem.Data;
 using WaterSystem.Data.Entities;
 using WaterSystem.Helpers;
 using WaterSystem.Models;
@@ -12,11 +13,15 @@ namespace WaterSystem.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly IGenericRepository<MeterRequest> _meterRequestRepository;
 
-        public UserController(IUserHelper userHelper, IMailHelper mailHelper)
+        public UserController(IUserHelper userHelper,
+            IMailHelper mailHelper,
+            IGenericRepository<MeterRequest> meterRequestRepository)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
+            _meterRequestRepository = meterRequestRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -30,12 +35,16 @@ namespace WaterSystem.Controllers
         {
             ViewBag.Roles = new List<string> { "Client", "Employee" };
 
+            ViewBag.FromRequest = false;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RegisterNewUserViewModel model, string role)
+        public async Task<IActionResult> Create(RegisterNewUserViewModel model,
+            string role,
+            int? meterRequestId)
         {
             if (!ModelState.IsValid)
             {
@@ -133,6 +142,18 @@ namespace WaterSystem.Controllers
 
                 ViewBag.Roles = new List<string> { "Client", "Employee" };
                 return View(model);
+            }
+
+            if (meterRequestId.HasValue)
+            {
+                var meterRequest = await _meterRequestRepository.GetByIdAsync(meterRequestId.Value);
+
+                if (meterRequest != null &&
+                    meterRequest.Status == "ForwardedToAdmin")
+                {
+                    meterRequest.Status = "AccountCreated";
+                    await _meterRequestRepository.UpdateAsync(meterRequest);
+                }
             }
 
             return RedirectToAction(nameof(Index));
@@ -333,6 +354,35 @@ namespace WaterSystem.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateFromRequest(int id)
+        {
+            var request = await _meterRequestRepository.GetByIdAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            if (request.Status != "ForwardedToAdmin")
+            {
+                return BadRequest();
+            }
+
+            var model = new RegisterNewUserViewModel
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Username = request.Email,
+                Address = request.Address
+            };
+
+            ViewBag.FromRequest = true;
+            ViewBag.MeterRequestId = id;
+
+            return View("Create", model);
         }
     }
 }

@@ -33,7 +33,8 @@ namespace WaterSystem.Controllers
 
             var request = new MeterRequest
             {
-                Name = model.Name,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 Email = model.Email,
                 Address = model.Address,
                 RequestDate = DateTime.Today,
@@ -95,11 +96,41 @@ namespace WaterSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        [Authorize(Roles = "Employee")]
+        public async Task<IActionResult> ForwardToAdmin(int id)
+        {
+            var request = await _repository.GetByIdAsync(id);
+            if(request == null)
+            {
+                return NotFound();
+            }
 
-        [Authorize(Roles ="Employee")]
+            if(request.Status != "Approved")
+            {
+                return BadRequest();
+            }
+
+            request.Status = "ForwardedToAdmin";
+
+            await _repository.UpdateAsync(request);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [Authorize(Roles ="Employee, Admin")]
         public async Task<IActionResult> Index()
         {
+            bool isAdmin = User.IsInRole("Admin");
+
             var allRequest = await _repository.GetAll().ToListAsync();
+
+            if (isAdmin)
+            {
+                allRequest = allRequest.Where(r => r.Status == "ForwardedToAdmin").ToList();
+            }
 
             return View(allRequest);
         }

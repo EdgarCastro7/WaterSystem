@@ -9,7 +9,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>Address</th>
             <th>Request Date</th>
@@ -23,7 +24,8 @@
             @foreach (var request in Model)
             {
                 <tr>
-                    <td>@request.Name</td>
+                    <td>@request.FirstName</td>
+                    <td>@request.LastName</td>
                     <td>@request.Email</td>
                     <td>@request.Address</td>
                     <td>@request.RequestDate.ToShortDateString()</td>
@@ -47,6 +49,25 @@
                                 </button>
                             </form>
                         }
+                        else if (request.Status == "Approved")
+                        {
+                            <form asp-action="ForwardToAdmin" asp-route-id="@request.Id"
+                                  method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Forward to Admin
+                                </button>
+                            </form>
+                        }
+                        else if (request.Status == "ForwardedToAdmin")
+                        {
+                            <a asp-controller="User"
+                               asp-action="CreateFromRequest"
+                               asp-route-id="@request.Id"
+                               class="btn btn-primary btn-sm">
+                                Create Client Account
+                            </a>
+                        }
                         else
                         {
                             <span class="text-muted">Already processed</span>
@@ -65,4 +86,3 @@
         }
     </tbody>
 </table>
-an
