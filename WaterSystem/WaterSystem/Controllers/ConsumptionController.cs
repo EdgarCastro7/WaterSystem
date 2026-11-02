@@ -18,17 +18,20 @@ namespace WaterSystem.Controllers
         private readonly IMeterRepository _meterRepository;
         private readonly IUserHelper _userHelper;
         private readonly IInvoiceRepository _invoiceRepository;
+        private readonly IPriceListRepository _priceListRepository;
 
         public ConsumptionController(
             IConsumptionRepository consumptionRepository,
             IMeterRepository meterRepository,
             IUserHelper userHelper,
-            IInvoiceRepository invoiceRepository)
+            IInvoiceRepository invoiceRepository,
+            IPriceListRepository priceListRepository)
         {
             _consumptionRepository = consumptionRepository;
             _meterRepository = meterRepository;
             _userHelper = userHelper;
             _invoiceRepository = invoiceRepository;
+            _priceListRepository = priceListRepository;
         }
 
 
@@ -140,11 +143,16 @@ namespace WaterSystem.Controllers
 
                 if (exists)
                 {
-                    ModelState.AddModelError(nameof(model.Date), "A reading already exists for this date.");
+                    ModelState.AddModelError(nameof(model.Date),
+                        "A reading already exists for this date.");
                 }
 
                 if (ModelState.IsValid)
                 {
+                    var consumptionVolume = lastConsumption == null
+                        ? (decimal?)null
+                        : model.Volume - lastConsumption.Volume;
+
                     var consumption = new Consumption
                     {
                         MeterId = model.MeterId,
@@ -153,6 +161,24 @@ namespace WaterSystem.Controllers
                     };
 
                     await _consumptionRepository.CreateAsync(consumption);
+
+                    if (consumptionVolume.HasValue)
+                    {
+                        var price = await CalculateInvoicePrice(consumptionVolume.Value);
+
+                        var invoice = new Invoice
+                        {
+                            DateTime = DateTime.Now,
+                            Price = price,
+                            Payment = false,
+                            Status = "Pending",
+                            UserId = meter.UserId,
+                            MeterId = meter.Id,
+                            ConsumptionId = consumption.Id
+                        };
+
+                        await _invoiceRepository.CreateAsync(invoice);
+                    }
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -418,6 +444,47 @@ namespace WaterSystem.Controllers
             await _consumptionRepository.DeleteAsync(consumption);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<decimal> CalculateInvoicePrice(decimal volume)
+        {
+            var priceLists = await _priceListRepository.GetPriceListsAsync();
+
+            decimal totalPrice = 0;
+            decimal previousLimit = 0;
+            decimal remainingVolume = volume;
+
+            foreach (var priceList in priceLists)
+            {
+                if (remainingVolume <= 0)
+                {
+                    break;
+                }
+
+                decimal tierVolume;
+
+                if (priceList.MaxVolume == null)
+                {
+                    tierVolume = remainingVolume;
+                }
+                else
+                {
+                    tierVolume = Math.Min(
+                        remainingVolume,
+                        priceList.MaxVolume.Value - previousLimit);
+                }
+
+                totalPrice += tierVolume * priceList.PricePerM3;
+
+                remainingVolume -= tierVolume;
+
+                if (priceList.MaxVolume.HasValue)
+                {
+                    previousLimit = priceList.MaxVolume.Value;
+                }
+            }
+
+            return totalPrice;
         }
     }
 }

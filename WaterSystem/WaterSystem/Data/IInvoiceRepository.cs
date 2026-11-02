@@ -17,5 +17,7 @@ namespace WaterSystem.Data
         Task<Invoice?> GetLastInvoiceAsync(User user);
 
         Task<Invoice?> GetLastInvoiceToPayAsync(User user);
+
+        Task<IEnumerable<Invoice>> GetPendingApprovalInvoicesAsync();
     }
 }

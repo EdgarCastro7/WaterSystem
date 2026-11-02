@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WaterSystem.Data.Entities.Invoice>
+
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<h1>Invoices</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Invoice Date</th>
+            <th>Client</th>
+            <th>Meter</th>
+            <th>Consumption ID</th>
+            <th>Price</th>
+            <th>Payment Status</th>
+            <th>Approval Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var invoice in Model)
+            {
+                <tr>
+                    <td>@invoice.DateTime.ToShortDateString()</td>
+                    <td>@invoice.User?.Email</td>
+                    <td>@invoice.MeterId</td>
+                    <td>@invoice.ConsumptionId</td>
+                    <td>@invoice.Price.ToString("C")</td>
+
+                    <td>
+                        @if (invoice.Payment)
+                        {
+                            <span class="badge bg-success">Paid</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (invoice.Status == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">Awaiting approval</span>
+                        }
+                        else if (invoice.Status == "Approved")
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (invoice.Status == "Rejected")
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (User.IsInRole("Employee") && invoice.Status == "Pending")
+                        {
+                            <form asp-action="Approve" asp-route-id="@invoice.Id"
+                                  method="post" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Approve
+                                </button>
+                            </form>
+
+                            <form asp-action="Reject" asp-route-id="@invoice.Id"
+                                  method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Reject
+                                </button>
+                            </form>
+                        }
+
+                        @if (User.IsInRole("Client") && invoice.Status == "Approved" && !invoice.Payment)
+                        {
+                            <form asp-action="Pay" asp-route-id="@invoice.Id"
+                                  method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Pay
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">No invoices found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

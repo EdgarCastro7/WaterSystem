@@ -1,0 +1,35 @@
+﻿@model WaterSystem.Data.Entities.PriceList
+
+@{
+    ViewData["Title"] = "Create Price Tier";
+}
+
+<h1>Create Price Tier</h1>
+
+<form asp-action="Create" method="post">
+
+    <div class="form-group mb-3">
+        <label asp-for="MaxVolume" class="control-label">
+            Maximum Volume (m³)
+        </label>
+        <input asp-for="MaxVolume" class="form-control"
+               type="number" step="0.01" />
+        <span asp-validation-for="MaxVolume" class="text-danger"></span>
+        <small class="form-text text-muted">
+            Leave empty for an unlimited tier.
+        </small>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="PricePerM3" class="control-label">
+            Price per m³ (€)
+        </label>
+        <input asp-for="PricePerM3" class="form-control"
+               type="number" step="0.01" required />
+        <span asp-validation-for="PricePerM3" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+</form>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WaterSystem.Data.Entities.PriceList>
+
+@{
+    ViewData["Title"] = "Price Lists";
+}
+
+<h1>Price Lists</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Maximum Volume (m³)</th>
+            <th>Price per m³</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var priceList in Model)
+            {
+                <tr>
+                    <td>
+                        @(priceList.MaxVolume.HasValue
+                                        ? priceList.MaxVolume.Value.ToString("N2")
+                                        : "Unlimited")
+            </td>
+            <td>@priceList.PricePerM3.ToString("C")</td>
+        </tr>
+                }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">
+                    No price tiers configured.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

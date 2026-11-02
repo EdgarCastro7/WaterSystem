@@ -14,7 +14,7 @@ namespace WaterSystem.Data
 
         public async Task<IEnumerable<Invoice>> GetInvoicesAsync()
         {
-            var invoices = await _context.Invoices.ToListAsync();
+            var invoices = await _context.Invoices.Include(i => i.User).ToListAsync();
 
             return invoices;
         }
@@ -39,7 +39,7 @@ namespace WaterSystem.Data
 
         public async Task<IEnumerable<Invoice>> GetInvoicesByUserAsync(User user)
         {
-            var invoices = await _context.Invoices.Where(i => i.UserId == user.Id).ToListAsync();
+            var invoices = await _context.Invoices.Include(i => i.User).Where(i => i.UserId == user.Id).ToListAsync();
 
             return invoices;
         }
@@ -62,11 +62,20 @@ namespace WaterSystem.Data
         public async Task<Invoice?> GetLastInvoiceToPayAsync(User user)
         {
             var invoice = await _context.Invoices
-            .Where(i => i.UserId == user.Id && i.Payment == false)
-            .OrderByDescending(i => i.DateTime)
-            .FirstOrDefaultAsync();
+                .Where(i => i.UserId == user.Id
+                         && i.Payment == false
+                         && i.Status == "Approved")
+                .OrderByDescending(i => i.DateTime)
+                .FirstOrDefaultAsync();
 
             return invoice;
+        }
+
+        public async Task<IEnumerable<Invoice>> GetPendingApprovalInvoicesAsync()
+        {
+            var invoices = await _context.Invoices.Where(i => i.Status == "Pending").ToListAsync();
+
+            return invoices;
         }
     }
 }

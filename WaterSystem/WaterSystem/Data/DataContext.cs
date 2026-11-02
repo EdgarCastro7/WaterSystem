@@ -17,11 +17,21 @@ namespace WaterSystem.Data
 
         public DbSet<Invoice> Invoices { get; set; }
 
+        public DbSet<PriceList> PriceLists { get; set; }
+
         public DbSet<MeterRequest> MeterRequests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<PriceList>()
+                 .Property(p => p.MaxVolume)
+                  .HasPrecision(18, 2);
+
+            modelBuilder.Entity<PriceList>()
+                .Property(p => p.PricePerM3)
+                .HasPrecision(18, 2);
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Meter>()

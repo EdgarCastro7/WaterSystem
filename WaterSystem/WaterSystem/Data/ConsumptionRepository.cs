@@ -24,14 +24,18 @@ namespace WaterSystem.Data
 
         public async Task<IEnumerable<Consumption>> GetConsumptionsAsync(Meter meter)
         {
-            var consumption = await _context.Consumptions.Where(m => m.MeterId == meter.Id).ToListAsync();
+            var consumptions = await _context.Consumptions
+                .Where(c => c.MeterId == meter.Id)
+                .ToListAsync();
 
-            return consumption;
+            return consumptions;
         }
 
         public async Task<IEnumerable<Consumption>> GetConsumptionsAsync()
         {
-            var consumptions = await _context.Consumptions.ToListAsync();
+            var consumptions = await _context.Consumptions
+                .Include(c => c.Meter)
+                .ToListAsync();
 
             return consumptions;
         }
