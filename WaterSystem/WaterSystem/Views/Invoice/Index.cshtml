@@ -33,7 +33,11 @@
                     <td>@invoice.Price.ToString("C")</td>
 
                     <td>
-                        @if (invoice.Payment)
+                        @if (invoice.Status == "Rejected")
+                        {
+                            <span class="badge bg-secondary">N/A</span>
+                        }
+                        else if (invoice.Payment)
                         {
                             <span class="badge bg-success">Paid</span>
                         }

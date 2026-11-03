@@ -10,10 +10,13 @@ namespace WaterSystem.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IMailHelper _mailHelper;
 
-        public AccountController(IUserHelper userHelper)
+        public AccountController(IUserHelper userHelper,
+            IMailHelper mailHelper)
         {
             _userHelper = userHelper;
+            _mailHelper = mailHelper;
         }
 
         public IActionResult Login()
@@ -105,6 +108,53 @@ namespace WaterSystem.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userHelper.GetUserByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "No account found with this email.");
+                return View(model);
+            }
+
+            var token = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+            var resetLink = Url.Action(
+                "ResetPassword",
+                "Account",
+                new { userId = user.Id, token = token },
+                Request.Scheme);
+
+            var response = _mailHelper.SendEmail(
+                user.Email,
+                "WaterSystem - Password Recovery",
+                $"Click <a href='{resetLink}'>here</a> to reset your password.");
+
+            if (!response.IsSuccess)
+            {
+                ModelState.AddModelError(string.Empty, "Unable to send recovery email.");
+                return View(model);
+            }
+
+            ViewBag.Message = "If the email is registered, a recovery link will be sent.";
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult ResetPassword(string userId, string token)

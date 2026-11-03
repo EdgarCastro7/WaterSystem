@@ -38,7 +38,7 @@ namespace WaterSystem.Controllers
             {
                 invoices = await _invoiceRepository.GetInvoicesByUserAsync(user);
 
-                invoices = invoices.Where(i => i.Status == "Approved");
+                invoices = invoices.Where(i => i.Status == "Approved" || i.Status == "Rejected");
             }
             else
             {
