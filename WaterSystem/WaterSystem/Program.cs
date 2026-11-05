@@ -69,6 +69,7 @@ builder.Services.AddScoped<IPriceListRepository, PriceListRepository>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+
 var app = builder.Build();
 
 RunSeeding(app);

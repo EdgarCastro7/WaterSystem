@@ -157,6 +157,9 @@ namespace WaterSystem.Controllers
 
                     await _consumptionRepository.CreateAsync(consumption);
 
+                    TempData["ToastMessage"] = "Consumption submitted successfully.";
+                    TempData["ToastType"] = "Success";
+
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -338,6 +341,9 @@ namespace WaterSystem.Controllers
 
                     await _consumptionRepository.UpdateAsync(consumption);
 
+                    TempData["ToastMessage"] = "Consumption updated successfully.";
+                    TempData["ToastType"] = "Success";
+
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -435,6 +441,9 @@ namespace WaterSystem.Controllers
 
             await _consumptionRepository.DeleteAsync(consumption);
 
+            TempData["ToastMessage"] = "Consumption deleted successfully.";
+            TempData["ToastType"] = "Success";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -527,6 +536,9 @@ namespace WaterSystem.Controllers
 
             if (previousConsumption == null)
             {
+                TempData["ToastMessage"] = "First consumption approved successfully.";
+                TempData["ToastType"] = "Success";
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -551,6 +563,9 @@ namespace WaterSystem.Controllers
             };
 
             await _invoiceRepository.CreateAsync(invoice);
+
+            TempData["ToastMessage"] = "Consumption approved successfully.";
+            TempData["ToastType"] = "Success";
 
             return RedirectToAction(nameof(Index));
         }
@@ -595,6 +610,9 @@ namespace WaterSystem.Controllers
             consumption.Status = "Rejected";
 
             await _consumptionRepository.UpdateAsync(consumption);
+
+            TempData["ToastMessage"] = "Consumption rejected successfully.";
+            TempData["ToastType"] = "Warning";
 
             return RedirectToAction(nameof(Index));
         }

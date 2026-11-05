@@ -20,7 +20,11 @@
 
             <div class="form-group mb-3">
                 <label asp-for="Date" class="control-label">Reading Date</label>
-                <input asp-for="Date" type="date" class="form-control" />
+                <ejs-datepicker id="Date"
+                                ejs-for="Date"
+                                format="dd/MM/yyyy"
+                                placeholder="Select reading date">
+                </ejs-datepicker>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
 
