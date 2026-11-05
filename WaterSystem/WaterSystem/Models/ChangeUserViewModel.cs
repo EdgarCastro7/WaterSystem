@@ -17,5 +17,9 @@ namespace WaterSystem.Models
 
         [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characters length.")]
         public string PhoneNumber { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

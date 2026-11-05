@@ -17,6 +17,8 @@ namespace WaterSystem.Data.Entities
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
 
+        public string? ImageUrl { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

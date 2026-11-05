@@ -11,12 +11,15 @@ namespace WaterSystem.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly IImageHelper _imageHelper;
 
         public AccountController(IUserHelper userHelper,
-            IMailHelper mailHelper)
+            IMailHelper mailHelper,
+            IImageHelper imageHelper)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
+            _imageHelper = imageHelper;
         }
 
         public IActionResult Login()
@@ -69,24 +72,29 @@ namespace WaterSystem.Controllers
 
         public async Task<IActionResult> ChangeUser()
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity!.Name!);
+
             var model = new ChangeUserViewModel();
+
             if (user != null)
             {
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
+                model.ImageUrl = user.ImageUrl;
             }
+
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity!.Name!);
 
                 if (user != null)
                 {
@@ -94,18 +102,27 @@ namespace WaterSystem.Controllers
                     user.LastName = model.LastName;
                     user.Address = model.Address;
                     user.PhoneNumber = model.PhoneNumber;
+                    model.ImageUrl = user.ImageUrl;
 
-                    var resposnse = await _userHelper.UpdateUserAsync(user);
-                    if (resposnse.Succeeded)
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
+                        user.ImageUrl = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
+                    }
+
+                    var response = await _userHelper.UpdateUserAsync(user);
+
+                    if (response.Succeeded)
+                    {
+                        model.ImageUrl = user.ImageUrl;
                         ViewBag.UserMessage = "User Updated!";
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, resposnse.Errors.FirstOrDefault().Description);
+                        ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault()!.Description);
                     }
                 }
             }
+
             return View(model);
         }
 
