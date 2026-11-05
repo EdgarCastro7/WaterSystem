@@ -63,31 +63,26 @@
                     </td>
 
                     <td>
+                        @if (User.IsInRole("Employee") && invoice.Status == "Rejected")
+                        {
+                            <a asp-action="Correct"asp-route-id="@invoice.Id"class="btn btn-warning btn-sm">Correct</a>
+                        }
+
                         @if (User.IsInRole("Employee") && invoice.Status == "Pending")
                         {
-                            <form asp-action="Approve" asp-route-id="@invoice.Id"
-                                  method="post" class="d-inline">
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Approve
-                                </button>
+                            <form asp-action="Approve" asp-route-id="@invoice.Id"method="post" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
                             </form>
 
-                            <form asp-action="Reject" asp-route-id="@invoice.Id"
-                                  method="post" class="d-inline">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Reject
-                                </button>
+                            <form asp-action="Reject" asp-route-id="@invoice.Id"method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                             </form>
                         }
 
                         @if (User.IsInRole("Client") && invoice.Status == "Approved" && !invoice.Payment)
                         {
-                            <form asp-action="Pay" asp-route-id="@invoice.Id"
-                                  method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Pay
-                                </button>
+                            <form asp-action="Pay" asp-route-id="@invoice.Id"method="post" class="d-inline">@Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-primary btn-sm">Pay</button>
                             </form>
                         }
                     </td>

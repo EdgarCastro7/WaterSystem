@@ -138,47 +138,24 @@ namespace WaterSystem.Controllers
                     }
                 }
 
-                var exists = await _consumptionRepository
-                    .AlreadyExistsAsync(meter, model.Date);
+                var exists = await _consumptionRepository.AlreadyExistsAsync(meter, model.Date);
 
                 if (exists)
                 {
-                    ModelState.AddModelError(nameof(model.Date),
-                        "A reading already exists for this date.");
+                    ModelState.AddModelError(nameof(model.Date),"A reading already exists for this date.");
                 }
 
                 if (ModelState.IsValid)
                 {
-                    var consumptionVolume = lastConsumption == null
-                        ? (decimal?)null
-                        : model.Volume - lastConsumption.Volume;
-
                     var consumption = new Consumption
                     {
                         MeterId = model.MeterId,
                         Date = model.Date,
-                        Volume = model.Volume
+                        Volume = model.Volume,
+                        Status = "Pending"
                     };
 
                     await _consumptionRepository.CreateAsync(consumption);
-
-                    if (consumptionVolume.HasValue)
-                    {
-                        var price = await CalculateInvoicePrice(consumptionVolume.Value);
-
-                        var invoice = new Invoice
-                        {
-                            DateTime = DateTime.Now,
-                            Price = price,
-                            Payment = false,
-                            Status = "Pending",
-                            UserId = meter.UserId,
-                            MeterId = meter.Id,
-                            ConsumptionId = consumption.Id
-                        };
-
-                        await _invoiceRepository.CreateAsync(invoice);
-                    }
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -203,7 +180,7 @@ namespace WaterSystem.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Employee, Client")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -216,6 +193,11 @@ namespace WaterSystem.Controllers
             if (consumption == null)
             {
                 return NotFound();
+            }
+
+            if (consumption.Status == "Approved")
+            {
+                return BadRequest("Approved consumptions cannot be edited.");
             }
 
             var meter = await _meterRepository.GetByIdAsync(consumption.MeterId);
@@ -253,7 +235,7 @@ namespace WaterSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Employee, Client")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Edit(ConsumptionViewModel model)
         {
             if (model == null)
@@ -266,6 +248,11 @@ namespace WaterSystem.Controllers
             if (consumption == null)
             {
                 return NotFound();
+            }
+
+            if (consumption.Status == "Approved")
+            {
+                return BadRequest("Approved consumptions cannot be edited.");
             }
 
             var meter = await _meterRepository.GetByIdAsync(consumption.MeterId);
@@ -360,7 +347,7 @@ namespace WaterSystem.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Employee, Client")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -402,7 +389,7 @@ namespace WaterSystem.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Employee, Client")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var consumption = await _consumptionRepository.GetByIdAsync(id);
@@ -410,6 +397,11 @@ namespace WaterSystem.Controllers
             if (consumption == null)
             {
                 return NotFound();
+            }
+
+            if (consumption.Status == "Approved")
+            {
+                return BadRequest("Approved consumptions cannot be deleted.");
             }
 
             var meter = await _meterRepository.GetByIdAsync(consumption.MeterId);
@@ -485,6 +477,126 @@ namespace WaterSystem.Controllers
             }
 
             return totalPrice;
+        }
+
+        [Authorize(Roles = "Employee")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var consumption = await _consumptionRepository.GetByIdAsync(id);
+
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            if (consumption.Status != "Pending")
+            {
+                return BadRequest();
+            }
+
+            var meter = await _meterRepository.GetByIdAsync(consumption.MeterId);
+
+            if (meter == null)
+            {
+                return NotFound();
+            }
+
+            var consumptions = await _consumptionRepository.GetConsumptionsAsync(meter);
+
+            var oldestPending = consumptions
+                .Where(c => c.Status == "Pending")
+                .OrderBy(c => c.Date)
+                .ThenBy(c => c.Id)
+                .FirstOrDefault();
+
+            if (oldestPending == null || oldestPending.Id != consumption.Id)
+            {
+                return BadRequest("You must approve the oldest pending reading first.");
+            }
+
+            var previousConsumption = consumptions
+                .Where(c => c.Status == "Approved" && c.Date < consumption.Date)
+                .OrderByDescending(c => c.Date)
+                .FirstOrDefault();
+
+            consumption.Status = "Approved";
+
+            await _consumptionRepository.UpdateAsync(consumption);
+
+            if (previousConsumption == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var consumptionVolume = consumption.Volume - previousConsumption.Volume;
+
+            if (consumptionVolume <= 0)
+            {
+                return BadRequest("Invalid consumption volume.");
+            }
+
+            var price = await CalculateInvoicePrice(consumptionVolume);
+
+            var invoice = new Invoice
+            {
+                DateTime = DateTime.Now,
+                Price = price,
+                Payment = false,
+                Status = "Pending",
+                UserId = meter.UserId,
+                MeterId = meter.Id,
+                ConsumptionId = consumption.Id
+            };
+
+            await _invoiceRepository.CreateAsync(invoice);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Employee")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var consumption = await _consumptionRepository.GetByIdAsync(id);
+
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            if (consumption.Status != "Pending")
+            {
+                return BadRequest();
+            }
+
+            var meter = await _meterRepository.GetByIdAsync(consumption.MeterId);
+
+            if (meter == null)
+            {
+                return NotFound();
+            }
+
+            var consumptions = await _consumptionRepository.GetConsumptionsAsync(meter);
+
+            var oldestPending = consumptions
+                .Where(c => c.Status == "Pending")
+                .OrderBy(c => c.Date)
+                .ThenBy(c => c.Id)
+                .FirstOrDefault();
+
+            if (oldestPending == null || oldestPending.Id != consumption.Id)
+            {
+                return BadRequest("You must reject the oldest pending reading first.");
+            }
+
+            consumption.Status = "Rejected";
+
+            await _consumptionRepository.UpdateAsync(consumption);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

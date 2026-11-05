@@ -14,6 +14,12 @@ namespace WaterSystem.Data.Entities
 
         public string Status { get; set; }
 
+        public int? OriginalInvoiceId { get; set; }
+
+        public Invoice? OriginalInvoice { get; set; }
+
+        public ICollection<Invoice> CorrectedInvoices { get; set; } = new List<Invoice>();
+
         public string UserId { get; set; }
 
         public User User { get; set; }

@@ -71,6 +71,12 @@ namespace WaterSystem.Data
             modelBuilder.Entity<Invoice>()
                 .Property(i => i.Price)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Invoice>()
+                .HasOne(i => i.OriginalInvoice)
+                .WithMany(i => i.CorrectedInvoices)
+                .HasForeignKey(i => i.OriginalInvoiceId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

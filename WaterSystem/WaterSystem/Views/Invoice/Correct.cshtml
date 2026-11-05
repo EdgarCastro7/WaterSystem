@@ -1,0 +1,36 @@
+﻿@model WaterSystem.Models.CorrectInvoiceViewModel
+
+@{
+    ViewData["Title"] = "Correct Invoice";
+}
+
+<h1>Correct Invoice</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Correct" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="OriginalInvoiceId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="NewPrice" class="control-label">New Invoice Value (€)</label>
+
+                <input asp-for="NewPrice" class="form-control" type="number"step="0.01" min="0.01" />
+
+                <span asp-validation-for="NewPrice" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Correction</button>
+
+            <a asp-action="Index" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

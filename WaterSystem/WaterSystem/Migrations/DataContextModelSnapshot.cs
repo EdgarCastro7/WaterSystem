@@ -173,6 +173,10 @@ namespace WaterSystem.Migrations
                     b.Property<int>("MeterId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Volume")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
@@ -201,6 +205,9 @@ namespace WaterSystem.Migrations
                     b.Property<int>("MeterId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OriginalInvoiceId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Payment")
                         .HasColumnType("bit");
 
@@ -221,6 +228,8 @@ namespace WaterSystem.Migrations
                     b.HasIndex("ConsumptionId");
 
                     b.HasIndex("MeterId");
+
+                    b.HasIndex("OriginalInvoiceId");
 
                     b.HasIndex("UserId");
 
@@ -468,6 +477,11 @@ namespace WaterSystem.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("WaterSystem.Data.Entities.Invoice", "OriginalInvoice")
+                        .WithMany("CorrectedInvoices")
+                        .HasForeignKey("OriginalInvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WaterSystem.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -477,6 +491,8 @@ namespace WaterSystem.Migrations
                     b.Navigation("Consumption");
 
                     b.Navigation("Meter");
+
+                    b.Navigation("OriginalInvoice");
 
                     b.Navigation("User");
                 });
@@ -490,6 +506,11 @@ namespace WaterSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WaterSystem.Data.Entities.Invoice", b =>
+                {
+                    b.Navigation("CorrectedInvoices");
                 });
 
             modelBuilder.Entity("WaterSystem.Data.Entities.Meter", b =>

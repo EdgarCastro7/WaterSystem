@@ -19,7 +19,8 @@
             <th>Meter</th>
             <th>Reading Date</th>
             <th>Meter Reading (m³)</th>
-            <th></th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -30,17 +31,56 @@
                 <td>@consumption.Date.ToShortDateString()</td>
                 <td>@consumption.Volume</td>
                 <td>
-                    @if (User.IsInRole("Employee") || User.IsInRole("Client"))
+                    @if (consumption.Status == "Pending")
                     {
-                        <a asp-action="Edit" asp-route-id="@consumption.Id"
-                           class="btn btn-warning">Edit</a>
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                    else if (consumption.Status == "Approved")
+                    {
+                        <span class="badge bg-success">Approved</span>
+                    }
+                    else if (consumption.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">Rejected</span>
+                    }
+                </td>
+                <td>
+                    @if (User.IsInRole("Employee"))
+                    {
+                        @if (consumption.Status == "Pending" || consumption.Status == "Rejected")
+                        {
+                            <a asp-action="Edit"
+                               asp-route-id="@consumption.Id"
+                               class="btn btn-warning btn-sm">Edit</a>
 
-                        <a asp-action="Delete" asp-route-id="@consumption.Id"
-                           class="btn btn-danger">Delete</a>
+                            <a asp-action="Delete"
+                               asp-route-id="@consumption.Id"
+                               class="btn btn-danger btn-sm">Delete</a>
+                        }
+
+                        @if (consumption.Status == "Pending")
+                        {
+                            <form asp-action="Approve"
+                                  asp-route-id="@consumption.Id"
+                                  method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Approve
+                                </button>
+                            </form>
+
+                            <form asp-action="Reject"
+                                  asp-route-id="@consumption.Id"
+                                  method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Reject
+                                </button>
+                            </form>
+                        }
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
