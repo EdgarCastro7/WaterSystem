@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WaterSystem.Data;
 using WaterSystem.Data.Entities;
 using WaterSystem.Helpers;
+using WaterSystem.Models;
 
 namespace WaterSystem.Controllers
 {
@@ -12,14 +13,17 @@ namespace WaterSystem.Controllers
         private readonly IMeterRepository _meterRepository;
         private readonly IGenericRepository<Meter> _genericRepository;
         private readonly IUserHelper _userHelper;
+        private readonly DataContext _context;
 
         public MeterController(IMeterRepository meterRepository,
             IGenericRepository<Meter> genericRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            DataContext context)
         {
             _meterRepository = meterRepository;
             _genericRepository = genericRepository;
             _userHelper = userHelper;
+            _context = context;
         }
 
         [Authorize]
@@ -41,6 +45,87 @@ namespace WaterSystem.Controllers
             var userMeters = await _meterRepository.GetMeterAsync(user);
 
             return View(userMeters);
+        }
+
+        [Authorize(Roles = "Client")]
+        public IActionResult RequestAdditional()
+        {
+            return View(new AdditionalMeterRequestViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> RequestAdditional(AdditionalMeterRequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity!.Name!);
+
+            if (user == null || !user.IsActive)
+            {
+                return Forbid();
+            }
+
+            var request = new MeterRequest
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email!,
+                Address = model.Address,
+                RequestDate = DateTime.Today,
+                Status = "Pending",
+                UserId = user.Id
+            };
+
+            await _context.MeterRequests.AddAsync(request);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
+        public async Task<IActionResult> CreateFromRequest(int id)
+        {
+            var request = await _context.MeterRequests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            if (request.UserId == null || request.Status != "ForwardedToAdmin")
+            {
+                return BadRequest();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(request.UserId);
+
+            if (user == null || !user.IsActive ||
+                !await _userHelper.IsUserInRoleAsync(user, "Client"))
+            {
+                return BadRequest();
+            }
+
+            var meter = new Meter
+            {
+                UserId = user.Id,
+                InstallationDate = DateTime.Today,
+                IsActive = true
+            };
+
+            await _genericRepository.CreateAsync(meter);
+
+            request.Status = "MeterCreated";
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index), "MeterRequest");
         }
 
         [Authorize(Roles = "Admin")]

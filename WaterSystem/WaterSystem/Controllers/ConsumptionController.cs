@@ -114,6 +114,12 @@ namespace WaterSystem.Controllers
                     return BadRequest("The meter is not activated");
                 }
 
+                if (model.Date.Date < meter.InstallationDate.Date)
+                {
+                    ModelState.AddModelError(nameof(model.Date),
+                        "The reading date cannot be earlier than the meter installation date.");
+                }
+
                 if (model.Volume <= 0)
                 {
                     ModelState.AddModelError(nameof(model.Volume),

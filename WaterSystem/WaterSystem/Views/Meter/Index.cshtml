@@ -13,6 +13,13 @@
     </p>
 }
 
+@if (User.IsInRole("Client"))
+{
+    <p>
+        <a asp-action="RequestAdditional" class="btn btn-primary">Add Meter</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>

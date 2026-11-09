@@ -4,6 +4,32 @@
     ViewData["Title"] = "Invoices";
 }
 
+<ejs-toast id="invoiceToast"
+           timeOut="5000"
+           showCloseButton="true"
+           showProgressBar="true">
+    <e-toast-position X="Right" Y="Bottom"></e-toast-position>
+</ejs-toast>
+
+@if (TempData["ToastMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var toastElement = document.getElementById("invoiceToast");
+            var toast = toastElement.ej2_instances[0];
+
+            var toastType = '@(TempData["ToastType"] ?? "Success")';
+            var toastMessage = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["ToastMessage"]?.ToString()));
+
+            toast.show({
+                title: toastType,
+                content: toastMessage,
+                cssClass: "e-toast-" + toastType.toLowerCase()
+            });
+        });
+    </script>
+}
+
 <h1>Invoices</h1>
 
 <table class="table">

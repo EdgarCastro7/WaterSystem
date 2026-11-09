@@ -29,44 +29,76 @@
                     <td>@request.Email</td>
                     <td>@request.Address</td>
                     <td>@request.RequestDate.ToShortDateString()</td>
-                    <td>@request.Status</td>
+                    <td>
+                        @if (request.Status == "AccountCreated")
+                        {
+                            <span class="badge bg-success">Created</span>
+                        }
+                        else if (request.Status == "MeterCreated")
+                        {
+                            <span class="badge bg-success">Meter Created</span>
+                        }
+                        else
+                        {
+                            @request.Status
+                        }
+                    </td>
                     <td>
                         @if (request.Status == "Pending")
                         {
-                            <form asp-action="Approve" asp-route-id="@request.Id"
-                                  method="post" class="d-inline">
+                            <form asp-action="Approve" asp-route-id="@request.Id" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Approve
-                                </button>
+                                <button type="submit" class="btn btn-success btn-sm"> Approve </button>
                             </form>
 
-                            <form asp-action="Reject" asp-route-id="@request.Id"
-                                  method="post" class="d-inline">
+                            <form asp-action="Reject" asp-route-id="@request.Id" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Reject
-                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm"> Reject </button>
                             </form>
                         }
                         else if (request.Status == "Approved")
                         {
-                            <form asp-action="ForwardToAdmin" asp-route-id="@request.Id"
-                                  method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Forward to Admin
-                                </button>
-                            </form>
+                            @if (request.UserId == null)
+                            {
+                                <form asp-action="ForwardToAdmin" asp-route-id="@request.Id"
+                                      method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Forward to Admin
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="Meter"
+                                      asp-action="CreateFromRequest"
+                                      asp-route-id="@request.Id"
+                                      method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Create Additional Meter
+                                    </button>
+                                </form>
+                            }
                         }
                         else if (request.Status == "ForwardedToAdmin")
                         {
-                            <a asp-controller="User"
-                               asp-action="CreateFromRequest"
-                               asp-route-id="@request.Id"
-                               class="btn btn-primary btn-sm">
-                                Create Client Account
-                            </a>
+                            @if (request.UserId == null)
+                            {
+                                <a asp-controller="User" asp-action="CreateFromRequest" asp-route-id="@request.Id"
+                                class="btn btn-primary btn-sm"> Create Client Account </a>
+                            }
+                            else
+                            {
+                                <form asp-controller="Meter" asp-action="CreateFromRequest" asp-route-id="@request.Id"
+                                      method="post" class="d-inline"> 
+                                      @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-success btn-sm"> Create Additional Meter </button>
+                                </form>
+                            }
                         }
                         else
                         {

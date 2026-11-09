@@ -1,6 +1,35 @@
 ﻿@model IEnumerable<WaterSystem.Data.Entities.User>
+
 @{
     ViewData["Title"] = "Users";
+}
+
+<ejs-toast id="userToast"
+           timeOut="5000"
+           showCloseButton="true"
+           showProgressBar="true">
+    <e-toast-position X="Right" Y="Bottom"></e-toast-position>
+</ejs-toast>
+
+@if (TempData["Error"] != null || TempData["Success"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var toastElement = document.getElementById("userToast");
+            var toast = toastElement.ej2_instances[0];
+
+            var isError = '@(TempData["Error"] != null ? "true" : "false")' === "true";
+
+            var message = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                            (TempData["Error"] ?? TempData["Success"])?.ToString()));
+
+        toast.show({
+            title: isError ? "Error" : "Success",
+            content: message,
+            cssClass: isError ? "e-toast-danger" : "e-toast-success"
+        });
+    });
+</script>
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -38,14 +67,11 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-outline-info">Details</a>
 
-                    <a asp-action="Edit" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 
-                    <a asp-action="Delete" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-outline-danger">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                 </td>
             </tr>
         }

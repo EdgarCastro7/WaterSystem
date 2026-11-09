@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WaterSystem.Data;
 using WaterSystem.Data.Entities;
 using WaterSystem.Helpers;
@@ -14,14 +15,17 @@ namespace WaterSystem.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
         private readonly IGenericRepository<MeterRequest> _meterRequestRepository;
+        private readonly DataContext _context;
 
         public UserController(IUserHelper userHelper,
             IMailHelper mailHelper,
-            IGenericRepository<MeterRequest> meterRequestRepository)
+            IGenericRepository<MeterRequest> meterRequestRepository,
+            DataContext dataContext)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _meterRequestRepository = meterRequestRepository;
+            _context = dataContext;
         }
 
         public async Task<IActionResult> Index()
@@ -337,12 +341,29 @@ namespace WaterSystem.Controllers
 
             var user = await _userHelper.GetUserByIdAsync(id);
 
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
+            if (user.IsActive)
+            {
+                TempData["Error"] = "Deactivate the user before deleting the account.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var hasMeters = await _context.Meters.AnyAsync(m => m.UserId == user.Id);
+
+            var hasInvoices = await _context.Invoices.AnyAsync(i => i.UserId == user.Id);
+
+            if (hasMeters || hasInvoices)
+            {
+                TempData["Error"] = "This user cannot be deleted because they have associated meters, consumptions or invoices. Deactivate the account instead.";
+                return RedirectToAction(nameof(Index));
+            }
+
             var result = await _userHelper.DeleteUserAsync(user);
+
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -352,6 +373,8 @@ namespace WaterSystem.Controllers
 
                 return View(user);
             }
+
+            TempData["Success"] = "User deleted successfully.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -364,6 +387,11 @@ namespace WaterSystem.Controllers
             if (request == null)
             {
                 return NotFound();
+            }
+
+            if (request.UserId != null)
+            {
+                return BadRequest("This request belongs to an existing client.");
             }
 
             if (request.Status != "ForwardedToAdmin")

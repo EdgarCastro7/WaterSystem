@@ -105,6 +105,9 @@ namespace WaterSystem.Controllers
 
             _mailHelper.SendEmail(user.Email, subject, body);
 
+            TempData["ToastMessage"] = "Invoice approved successfully.";
+            TempData["ToastType"] = "Success";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -128,6 +131,9 @@ namespace WaterSystem.Controllers
             invoice.Status = "Rejected";
 
             await _invoiceRepository.UpdateAsync(invoice);
+
+            TempData["ToastMessage"] = "Invoice rejected successfully.";
+            TempData["ToastType"] = "Warning";
 
             return RedirectToAction(nameof(Index));
         }
@@ -200,6 +206,9 @@ namespace WaterSystem.Controllers
 
             await _invoiceRepository.CreateAsync(correctedInvoice);
 
+            TempData["ToastMessage"] = "Invoice updated successfully.";
+            TempData["ToastType"] = "Success";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -236,47 +245,10 @@ namespace WaterSystem.Controllers
 
             await _invoiceRepository.UpdateAsync(invoice);
 
+            TempData["ToastMessage"] = "Invoice paid successfully.";
+            TempData["ToastType"] = "Success";
+
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task<decimal> CalculateInvoicePrice(decimal volume)
-        {
-            var priceLists = await _priceListRepository.GetPriceListsAsync();
-
-            decimal totalPrice = 0;
-            decimal previousLimit = 0;
-            decimal remainingVolume = volume;
-
-            foreach (var priceList in priceLists)
-            {
-                if (remainingVolume <= 0)
-                {
-                    break;
-                }
-
-                decimal tierVolume;
-
-                if (priceList.MaxVolume == null)
-                {
-                    tierVolume = remainingVolume;
-                }
-                else
-                {
-                    tierVolume = Math.Min(
-                        remainingVolume,
-                        priceList.MaxVolume.Value - previousLimit);
-                }
-
-                totalPrice += tierVolume * priceList.PricePerM3;
-                remainingVolume -= tierVolume;
-
-                if (priceList.MaxVolume.HasValue)
-                {
-                    previousLimit = priceList.MaxVolume.Value;
-                }
-            }
-
-            return totalPrice;
         }
     }
 }

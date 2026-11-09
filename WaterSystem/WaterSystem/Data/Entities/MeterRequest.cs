@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace WaterSystem.Data.Entities
 {
@@ -26,5 +27,10 @@ namespace WaterSystem.Data.Entities
 
         [Required]
         public string Status { get; set; } = "Pending";
+
+        public string? UserId { get; set; }
+
+        [ValidateNever]
+        public User? User { get; set; }
     }
 }

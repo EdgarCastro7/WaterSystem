@@ -123,16 +123,14 @@ namespace WaterSystem.Controllers
         [Authorize(Roles ="Employee, Admin")]
         public async Task<IActionResult> Index()
         {
-            bool isAdmin = User.IsInRole("Admin");
+            var allRequests = await _repository.GetAll().ToListAsync();
 
-            var allRequest = await _repository.GetAll().ToListAsync();
-
-            if (isAdmin)
+            if (User.IsInRole("Admin"))
             {
-                allRequest = allRequest.Where(r => r.Status == "ForwardedToAdmin").ToList();
+                allRequests = allRequests.Where(r => r.UserId == null && r.Status == "ForwardedToAdmin").ToList();
             }
 
-            return View(allRequest);
+            return View(allRequests);
         }
     }
 }
