@@ -20,3 +20,985 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+:root {
+    --ws-primary: #123B59;
+    --ws-secondary: #168AAD;
+    --ws-accent: #52B69A;
+    --ws-background: #F3F7FA;
+    --ws-white: #FFFFFF;
+    --ws-text: #263746;
+    --ws-muted: #718096;
+    --ws-border: #E2E8F0;
+}
+
+/* General layout */
+
+html {
+    min-height: 100%;
+}
+
+body.ws-body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--ws-background);
+    color: var(--ws-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Top navigation */
+
+.ws-navbar {
+    background-color: var(--ws-white);
+    min-height: 76px;
+    border-bottom: 1px solid var(--ws-border);
+    box-shadow: 0 2px 10px rgba(18, 59, 89, 0.04);
+}
+
+.ws-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ws-primary) !important;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.ws-brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background-color: var(--ws-primary);
+    color: var(--ws-white);
+    font-size: 19px;
+}
+
+.ws-nav-link {
+    color: var(--ws-muted) !important;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px !important;
+    transition: color 0.2s ease;
+}
+
+    .ws-nav-link:hover {
+        color: var(--ws-secondary) !important;
+    }
+
+/* Login and Logout buttons */
+
+.ws-btn-login,
+.ws-btn-logout {
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.ws-btn-login {
+    background-color: var(--ws-primary);
+    color: var(--ws-white);
+    border: 1px solid var(--ws-primary);
+}
+
+    .ws-btn-login:hover {
+        background-color: var(--ws-secondary);
+        border-color: var(--ws-secondary);
+        color: var(--ws-white);
+    }
+
+.ws-btn-logout {
+    background-color: transparent;
+    color: var(--ws-primary);
+    border: 1px solid var(--ws-border);
+}
+
+    .ws-btn-logout:hover {
+        background-color: var(--ws-primary);
+        color: var(--ws-white);
+    }
+
+/* Main content */
+
+.ws-main {
+    flex: 1;
+    width: 100%;
+}
+
+    .ws-main main {
+        min-height: 400px;
+    }
+
+/* Footer */
+
+.ws-footer {
+    width: 100%;
+    padding: 22px 0;
+    background-color: var(--ws-white);
+    border-top: 1px solid var(--ws-border);
+    color: var(--ws-muted);
+    font-size: 13px;
+}
+
+    .ws-footer .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ws-footer a {
+        color: var(--ws-secondary);
+        text-decoration: none;
+    }
+
+        .ws-footer a:hover {
+            text-decoration: underline;
+        }
+
+/* Responsive navigation */
+
+@media (max-width: 991px) {
+    .ws-navbar {
+        padding: 12px 0;
+    }
+
+        .ws-navbar .navbar-collapse {
+            padding-top: 15px;
+        }
+
+        .ws-navbar .ws-btn-login,
+        .ws-navbar .ws-btn-logout {
+            margin-top: 10px;
+        }
+}
+
+
+.ws-profile-dropdown {
+    margin-left: 15px;
+}
+
+.ws-profile-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 12px 5px 6px;
+    border: 1px solid var(--ws-border);
+    border-radius: 30px;
+    color: var(--ws-primary);
+    background: var(--ws-white);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .ws-profile-button:hover,
+    .ws-profile-button:focus {
+        background: #F3F7FA;
+        border-color: var(--ws-secondary);
+        color: var(--ws-primary);
+    }
+
+    .ws-profile-button::after {
+        margin-left: 5px;
+    }
+
+.ws-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.ws-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E0F1F7;
+    color: var(--ws-primary);
+    font-size: 18px;
+}
+
+.ws-profile-name {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ws-profile-menu {
+    min-width: 220px;
+    margin-top: 12px !important;
+    padding: 8px;
+    border: 1px solid var(--ws-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(18, 59, 89, 0.10);
+}
+
+    .ws-profile-menu .dropdown-item {
+        padding: 10px 12px;
+        border-radius: 7px;
+        color: var(--ws-text);
+        font-size: 13px;
+    }
+
+        .ws-profile-menu .dropdown-item:hover {
+            background: #F0F7FA;
+            color: var(--ws-secondary);
+        }
+
+.ws-profile-email {
+    color: var(--ws-muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.ws-logout-link {
+    color: #DC3545 !important;
+}
+
+    .ws-logout-link:hover {
+        background: #FFF1F1 !important;
+    }
+
+@media (max-width: 991px) {
+    .ws-profile-dropdown {
+        margin: 12px 0 0;
+    }
+
+    .ws-profile-button {
+        width: fit-content;
+    }
+}
+
+
+/* ==============================
+   HOME - HERO SECTION
+   ============================== */
+
+.ws-hero {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient( 90deg, rgba(8, 38, 59, 0.88) 0%, rgba(8, 38, 59, 0.58) 55%, rgba(8, 38, 59, 0.12) 100% ), url('/images/water-hero.png') center 48% / cover no-repeat;
+    color: white;
+}
+
+.ws-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 0deg, rgba(8, 38, 59, 0.15), transparent 50% );
+}
+
+.ws-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1530px;
+    margin: 0 auto;
+    padding: 40px 4%;
+}
+
+.ws-hero-text {
+    max-width: 650px;
+}
+
+.ws-hero-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #8EDDE2;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.ws-hero h1 {
+    margin-bottom: 14px;
+    color: white;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -1px;
+}
+
+    .ws-hero h1 span {
+        display: block;
+        color: #8EDDE2;
+    }
+
+.ws-hero p {
+    max-width: 520px;
+    margin-bottom: 22px;
+    color: #E0EDF3;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.ws-hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ws-hero-primary,
+.ws-hero-secondary {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.ws-hero-primary {
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    color: #123B59;
+}
+
+    .ws-hero-primary:hover {
+        background: #E0F1F7;
+        border-color: #E0F1F7;
+        color: #123B59;
+    }
+
+.ws-hero-secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.8);
+    color: white;
+}
+
+    .ws-hero-secondary:hover {
+        background: white;
+        color: #123B59;
+    }
+
+.ws-hero-bottom {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .ws-hero {
+        min-height: 380px;
+        background-position: center;
+    }
+
+    .ws-hero-content {
+        padding-top: 45px;
+        padding-bottom: 45px;
+    }
+
+    .ws-hero h1 {
+        font-size: 34px;
+    }
+
+    .ws-hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.ws-main {
+    flex: 1;
+    width: 100%;
+}
+
+    .ws-main main {
+        width: 100%;
+        max-width: none;
+        min-height: 400px;
+        padding: 0 !important;
+        margin: 0;
+    }
+
+
+/* ==============================
+   HOME - ABOUT SECTION
+   ============================== */
+
+.ws-about-preview {
+    width: 100%;
+    background: #FFFFFF;
+    padding: 45px 4%;
+}
+
+.ws-about-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 55px;
+}
+
+.ws-about-image img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.ws-about-content {
+    max-width: 570px;
+}
+
+.ws-section-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #168AAD;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.ws-about-content h2 {
+    margin-bottom: 14px;
+    color: #123B59;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.ws-about-content p {
+    margin-bottom: 18px;
+    color: #45596B;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.ws-about-link {
+    color: #087EAB;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid #087EAB;
+    padding-bottom: 4px;
+}
+
+    .ws-about-link:hover {
+        color: #123B59;
+    }
+
+@media (max-width: 767px) {
+    .ws-about-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .ws-about-preview {
+        padding: 35px 5%;
+    }
+
+    .ws-about-image img {
+        height: 200px;
+    }
+}
+
+
+/* ==============================
+   HOME - SERVICES SECTION
+   ============================== */
+
+.ws-services {
+    width: 100%;
+    padding: 45px 4%;
+    background: #F1F6F9;
+}
+
+.ws-services-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.ws-services-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+    .ws-services-heading h2 {
+        margin: 0;
+        color: #123B59;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .ws-services-heading p {
+        max-width: 430px;
+        margin: 0;
+        color: #45596B;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+.ws-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.ws-service-card {
+    position: relative;
+    display: block;
+    min-height: 180px;
+    padding: 25px;
+    background: #FFFFFF;
+    border: 1px solid #DFE8EE;
+    border-radius: 13px;
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+    .ws-service-card:hover {
+        transform: translateY(-4px);
+        border-color: #9ACDDF;
+        box-shadow: 0 8px 22px rgba(18, 59, 89, 0.08);
+    }
+
+.ws-service-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: #E2F3FA;
+    color: #168AAD;
+    font-size: 23px;
+}
+
+.ws-service-card h3 {
+    margin-bottom: 8px;
+    color: #123B59;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ws-service-card p {
+    max-width: 300px;
+    margin: 0;
+    color: #45596B;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.ws-service-arrow {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    color: #168AAD;
+    font-size: 19px;
+}
+
+@media (max-width: 767px) {
+    .ws-services-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ws-services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==============================
+   HOME - WHY WATER SYSTEM
+   ============================== */
+
+.ws-why-us {
+    width: 100%;
+    padding: 40px 4%;
+    background: #FFFFFF;
+}
+
+.ws-why-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+    .ws-why-container h2 {
+        margin-bottom: 25px;
+        color: #123B59;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+.ws-why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.ws-why-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 5px 20px;
+    border-right: 1px solid #DFE8EE;
+}
+
+    .ws-why-item:last-child {
+        border-right: none;
+    }
+
+.ws-why-icon {
+    flex-shrink: 0;
+    color: #087EAB;
+    font-size: 32px;
+}
+
+.ws-why-item h3 {
+    margin-bottom: 7px;
+    color: #123B59;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ws-why-item p {
+    margin: 0;
+    color: #45596B;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+    .ws-why-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .ws-why-item {
+        border-right: none;
+        border-bottom: 1px solid #DFE8EE;
+        padding: 10px 0 20px;
+    }
+}
+
+
+/* ==============================
+   HOME - CLIENT AREA BANNER
+   ============================== */
+
+.ws-client-banner {
+    position: relative;
+    max-width: 1400px;
+    margin: 15px auto 40px;
+    padding: 30px 4%;
+    overflow: hidden;
+    border-radius: 14px;
+    background: linear-gradient(90deg, rgba(5, 67, 99, 0.96), rgba(5, 67, 99, 0.55)), url('/images/water-about.png') center 50% / cover no-repeat;
+}
+
+.ws-client-banner-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    color: #FFFFFF;
+}
+
+.ws-client-banner-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 30px;
+}
+
+.ws-client-banner-text {
+    flex: 1;
+}
+
+    .ws-client-banner-text h2 {
+        margin-bottom: 5px;
+        color: #FFFFFF;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .ws-client-banner-text p {
+        max-width: 430px;
+        margin: 0;
+        color: #E6F4FA;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+.ws-client-banner-action .btn {
+    padding: 11px 22px;
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #123B59;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+    .ws-client-banner-action .btn:hover {
+        background: #DDF3FA;
+    }
+
+@media (max-width: 767px) {
+    .ws-client-banner-content {
+        flex-wrap: wrap;
+    }
+
+    .ws-client-banner-action {
+        width: 100%;
+    }
+}
+
+
+
+/* ==============================
+   HOME - CONTACT SECTION
+   ============================== */
+
+.ws-contact {
+    width: 100%;
+    padding: 45px 4%;
+    background: #FFFFFF;
+}
+
+.ws-contact-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.ws-contact-heading {
+    margin-bottom: 28px;
+}
+
+    .ws-contact-heading h2 {
+        margin-bottom: 10px;
+        color: #123B59;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .ws-contact-heading p {
+        margin: 0;
+        color: #45596B;
+        font-size: 15px;
+    }
+
+.ws-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.ws-contact-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    background: #F4F8FA;
+    border: 1px solid #E1EAF0;
+    border-radius: 12px;
+}
+
+.ws-contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #E2F3FA;
+    color: #168AAD;
+    font-size: 22px;
+}
+
+.ws-contact-card h3 {
+    margin-bottom: 5px;
+    color: #123B59;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.ws-contact-card p {
+    margin: 0;
+    color: #45596B;
+    font-size: 14px;
+}
+
+@media (max-width: 767px) {
+    .ws-contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==============================
+   WATERSYSTEM - FOOTER
+   ============================== */
+
+.ws-footer {
+    width: 100%;
+    margin-top: auto;
+    background: #123B59;
+    color: #D9E7EF;
+}
+
+.ws-footer-main {
+    padding: 45px 4%;
+}
+
+.ws-footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.3fr 1.3fr;
+    gap: 35px;
+}
+
+.ws-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 15px;
+    color: #FFFFFF;
+    font-size: 21px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+    .ws-footer-logo i {
+        color: #8EDDE2;
+        font-size: 25px;
+    }
+
+.ws-footer-brand p {
+    max-width: 280px;
+    color: #B9CEDB;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.ws-footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+    .ws-footer-column h4 {
+        margin-bottom: 5px;
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .ws-footer-column a,
+    .ws-footer-column span {
+        color: #B9CEDB;
+        font-size: 13px;
+        text-decoration: none;
+        line-height: 1.5;
+    }
+
+        .ws-footer-column a:hover {
+            color: #8EDDE2;
+        }
+
+.ws-footer-bottom {
+    padding: 18px 4%;
+    border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+    .ws-footer-bottom .ws-footer-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        color: #A9C0CE;
+        font-size: 12px;
+    }
+
+@media (max-width: 767px) {
+    .ws-footer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ws-footer-bottom .ws-footer-container {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .ws-footer-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==============================
+   ABOUT US - HERO
+   ============================== */
+
+.ws-about-hero {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(8, 38, 59, 0.88), rgba(8, 38, 59, 0.25)), url('/images/water-about.png') center 50% / cover no-repeat;
+}
+
+.ws-about-hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 55px 4%;
+    color: #FFFFFF;
+}
+
+.ws-about-hero h1 {
+    margin: 18px 0;
+    color: #FFFFFF;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+    .ws-about-hero h1 span {
+        color: #8EDDE2;
+    }
+
+.ws-about-hero p {
+    max-width: 550px;
+    margin: 0;
+    color: #E6F4FA;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+    .ws-about-hero {
+        min-height: 280px;
+    }
+
+    .ws-about-hero-content {
+        padding: 40px 6%;
+    }
+}
+

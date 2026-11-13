@@ -1,8 +1,230 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="ws-hero">
+    <div class="ws-hero-overlay"></div>
+
+    <div class="ws-hero-content">
+        <div class="ws-hero-text">
+            <span class="ws-hero-label">WATER MANAGEMENT SOLUTIONS</span>
+
+            <h1>
+                Water is essential.
+                <span>We take care of every detail.</span>
+            </h1>
+
+            <p>
+                Smart solutions for efficient water management,
+                combining technology, transparency and trust.
+            </p>
+
+            <div class="ws-hero-buttons">
+                <a asp-controller="Home" asp-action="About" class="btn ws-hero-primary">
+                    Learn More About Us <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+                <a asp-controller="Account" asp-action="Login" class="btn ws-hero-secondary">
+                    <i class="bi bi-person me-2"></i> Client Area
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ws-about-preview">
+    <div class="ws-about-container">
+        <div class="ws-about-image">
+            <img src="~/images/Water-about.png" alt="Clean water flowing" />
+        </div>
+
+        <div class="ws-about-content">
+            <span class="ws-section-label">WHO WE ARE</span>
+            <h2>About WaterSystem</h2>
+
+            <p>
+                We are dedicated to water management, consumption monitoring
+                and billing, committed to providing an efficient, transparent
+                and reliable service.
+            </p>
+
+            <a asp-controller="Home" asp-action="About" class="ws-about-link">
+                Learn More About Us <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<section class="ws-services">
+    <div class="ws-services-container">
+        <div class="ws-services-heading">
+            <div>
+                <span class="ws-section-label">OUR SERVICES</span>
+                <h2>Solutions for you</h2>
+            </div>
+            <p>
+                We provide a range of digital services that make water
+                consumption management simple and convenient.
+            </p>
+        </div>
+
+        <div class="ws-services-grid">
+            <a asp-controller="Meter" asp-action="Index" class="ws-service-card">
+                <div class="ws-service-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <h3>Meter Management</h3>
+                <p>View, manage and keep track of your water meters.</p>
+                <i class="bi bi-arrow-right ws-service-arrow"></i>
+            </a>
+
+            <a asp-controller="Consumption" asp-action="Index" class="ws-service-card">
+                <div class="ws-service-icon">
+                    <i class="bi bi-droplet"></i>
+                </div>
+                <h3>Consumption Monitoring</h3>
+                <p>Monitor your water consumption easily and clearly.</p>
+                <i class="bi bi-arrow-right ws-service-arrow"></i>
+            </a>
+
+            <a asp-controller="Invoice" asp-action="Index" class="ws-service-card">
+                <div class="ws-service-icon">
+                    <i class="bi bi-receipt"></i>
+                </div>
+                <h3>Online Billing</h3>
+                <p>Access your invoices, payment history and details.</p>
+                <i class="bi bi-arrow-right ws-service-arrow"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<section class="ws-why-us">
+    <div class="ws-why-container">
+        <span class="ws-section-label">WHAT DEFINES US</span>
+        <h2>Why WaterSystem?</h2>
+
+        <div class="ws-why-grid">
+            <div class="ws-why-item">
+                <div class="ws-why-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <div>
+                    <h3>Efficiency</h3>
+                    <p>Simple digital processes for better control and faster management.</p>
+                </div>
+            </div>
+
+            <div class="ws-why-item">
+                <div class="ws-why-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <div>
+                    <h3>Transparency</h3>
+                    <p>Clear and accessible information about consumption and billing.</p>
+                </div>
+            </div>
+
+            <div class="ws-why-item">
+                <div class="ws-why-icon">
+                    <i class="bi bi-recycle"></i>
+                </div>
+                <div>
+                    <h3>Sustainability</h3>
+                    <p>Responsible water management with a focus on the future.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="ws-client-banner">
+    <div class="ws-client-banner-overlay"></div>
+
+    <div class="ws-client-banner-content">
+        <div class="ws-client-banner-icon">
+            <i class="bi bi-person"></i>
+        </div>
+
+        <div class="ws-client-banner-text">
+            <h2>Client Area</h2>
+            <p>Access your account and manage your meters, consumption and invoices.</p>
+        </div>
+
+        <div class="ws-client-banner-action">
+            @if (User.IsInRole("Client"))
+            {
+                <a asp-controller="Consumption" asp-action="Index" class="btn">
+                    Access Account <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="User" asp-action="Index" class="btn">
+                    Access Account <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                <a asp-controller="MeterRequest" asp-action="Index" class="btn">
+                    Access Account <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn">
+                    Sign In <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+
+<section class="ws-contact">
+    <div class="ws-contact-container">
+        <div class="ws-contact-heading">
+            <span class="ws-section-label">GET IN TOUCH</span>
+            <h2>Contact Us</h2>
+            <p>
+                Have questions or need assistance?
+                Our team is here to help.
+            </p>
+        </div>
+
+        <div class="ws-contact-grid">
+            <div class="ws-contact-card">
+                <div class="ws-contact-icon">
+                    <i class="bi bi-telephone"></i>
+                </div>
+                <div>
+                    <h3>Phone</h3>
+                    <p>+351 210 123 456</p>
+                </div>
+            </div>
+
+            <div class="ws-contact-card">
+                <div class="ws-contact-icon">
+                    <i class="bi bi-envelope"></i>
+                </div>
+                <div>
+                    <h3>Email</h3>
+                    <p>geral@watersystem.com</p>
+                </div>
+            </div>
+
+            <div class="ws-contact-card">
+                <div class="ws-contact-icon">
+                    <i class="bi bi-geo-alt"></i>
+                </div>
+                <div>
+                    <h3>Location</h3>
+                    <p>Lisbon, Portugal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
