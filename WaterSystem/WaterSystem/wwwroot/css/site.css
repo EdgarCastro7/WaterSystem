@@ -1002,3 +1002,306 @@ body.ws-body {
     }
 }
 
+
+/* ==============================
+   ABOUT US - OUR MISSION
+   ============================== */
+
+.ws-about-mission {
+    width: 100%;
+    padding: 65px 4%;
+    background: #FFFFFF;
+}
+
+.ws-about-mission-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 55px;
+}
+
+.ws-about-mission-image img {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.ws-about-mission-content h2 {
+    margin: 14px 0 18px;
+    color: #123B59;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.ws-about-mission-content p {
+    color: #45596B;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 767px) {
+    .ws-about-mission-container {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .ws-about-mission-image img {
+        height: 230px;
+    }
+
+    .ws-about-mission-content h2 {
+        font-size: 27px;
+    }
+}
+
+
+/* ==============================
+   ABOUT US - HOW WE WORK
+   ============================== */
+
+.ws-how-we-work {
+    padding: 65px 4%;
+    background: #F0F6F9;
+}
+
+.ws-how-container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.ws-how-heading {
+    max-width: 650px;
+    margin-bottom: 45px;
+}
+
+    .ws-how-heading h2 {
+        margin: 12px 0;
+        color: #123B59;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .ws-how-heading p {
+        color: #45596B;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+.ws-how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    position: relative;
+}
+
+.ws-how-step {
+    position: relative;
+    padding: 25px 28px;
+    background: #FFFFFF;
+    border: 1px solid #E1EAF0;
+    border-radius: 14px;
+}
+
+.ws-how-number {
+    margin-bottom: 20px;
+    color: #168AAD;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.ws-how-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    background: #E2F3FA;
+    color: #168AAD;
+    font-size: 27px;
+}
+
+.ws-how-step h3 {
+    margin-bottom: 10px;
+    color: #123B59;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ws-how-step p {
+    margin: 0;
+    color: #45596B;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+    .ws-how-steps {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .ws-how-heading h2 {
+        font-size: 27px;
+    }
+}
+
+
+/* ==============================
+   ABOUT US - VISION & VALUES
+   ============================== */
+
+.ws-vision {
+    padding: 70px 4%;
+    background: #FFFFFF;
+}
+
+.ws-vision-container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.ws-vision-intro {
+    max-width: 760px;
+    margin-bottom: 45px;
+}
+
+    .ws-vision-intro h2 {
+        margin: 14px 0;
+        color: #123B59;
+        font-size: 34px;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .ws-vision-intro p {
+        max-width: 680px;
+        color: #45596B;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+.ws-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.ws-value {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 10px 20px;
+    border-left: 3px solid #168AAD;
+}
+
+    .ws-value > i {
+        color: #168AAD;
+        font-size: 30px;
+        flex-shrink: 0;
+    }
+
+    .ws-value h3 {
+        margin-bottom: 8px;
+        color: #123B59;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .ws-value p {
+        margin: 0;
+        color: #45596B;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+@media (max-width: 767px) {
+    .ws-values {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .ws-vision-intro h2 {
+        font-size: 28px;
+    }
+}
+
+
+
+/* ==============================
+   ABOUT US - OUR COMMITMENT
+   ============================== */
+
+.ws-commitment {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(5, 52, 78, 0.95), rgba(5, 52, 78, 0.55)), url('/images/water-hero.png') center 55% / cover no-repeat;
+}
+
+.ws-commitment-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 45px 4%;
+}
+
+    .ws-commitment-content > span {
+        color: #8EDDE2;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 2px;
+    }
+
+    .ws-commitment-content h2 {
+        margin: 15px 0;
+        color: #FFFFFF;
+        font-size: 36px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .ws-commitment-content p {
+        max-width: 550px;
+        margin-bottom: 22px;
+        color: #E6F4FA;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+.ws-commitment-btn {
+    padding: 11px 20px;
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #123B59;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+    .ws-commitment-btn:hover {
+        background: #DDF3FA;
+        color: #123B59;
+    }
+
+@media (max-width: 767px) {
+    .ws-commitment {
+        min-height: 280px;
+    }
+
+    .ws-commitment-content h2 {
+        font-size: 29px;
+    }
+}

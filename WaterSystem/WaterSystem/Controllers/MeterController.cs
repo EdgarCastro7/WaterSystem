@@ -29,7 +29,7 @@ namespace WaterSystem.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
                 var meters = await _genericRepository.GetAll().Include(m => m.User).ToListAsync();
                 return View(meters);
