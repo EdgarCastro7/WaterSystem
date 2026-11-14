@@ -1305,3 +1305,114 @@ body.ws-body {
         font-size: 29px;
     }
 }
+
+
+
+/* ==============================
+   GLOBAL PAGE CONTENT
+   ============================== */
+
+.ws-page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 30px 60px;
+}
+
+    .ws-page-container h1 {
+        margin-bottom: 30px;
+        color: #123B59;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+@media (max-width: 767px) {
+    .ws-page-container {
+        padding: 25px 18px 40px;
+    }
+}
+
+
+.ws-page-header-left {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+    .ws-page-header-left h1 {
+        margin: 0;
+    }
+
+.ws-page-card .table th,
+.ws-page-card .table td {
+    padding: 15px 18px;
+}
+
+.ws-page-card .table thead th {
+    color: #123B59;
+    background: #F0F6F9;
+    white-space: nowrap;
+}
+
+.ws-page-card-narrow {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+
+/* ==============================
+   INTERNAL PAGE DESIGN
+   ============================== */
+
+.ws-page-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 55px 25px 70px;
+}
+
+.ws-page-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+    .ws-page-header span {
+        color: #168AAD;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .ws-page-header h1 {
+        color: #123B59;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 10px 0;
+    }
+
+    .ws-page-header p {
+        color: #607386;
+        font-size: 15px;
+        margin: 0;
+    }
+
+.ws-page-card {
+    background: #FFFFFF;
+    padding: 35px;
+    border: 1px solid #E1EAF0;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(18, 59, 89, 0.05);
+}
+
+@media (max-width: 767px) {
+    .ws-page-container {
+        padding: 30px 16px 45px;
+    }
+
+    .ws-page-card {
+        padding: 22px;
+    }
+
+    .ws-page-header h1 {
+        font-size: 26px;
+    }
+}

@@ -4,117 +4,145 @@
     ViewData["Title"] = "Meter Installation Requests";
 }
 
-<h1>Meter Installation Requests</h1>
+<div class="ws-page-container">
+    <div class="ws-page-header ws-page-header-left">
+        <h1>Meter Installation Requests</h1>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Request Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            @foreach (var request in Model)
-            {
-                <tr>
-                    <td>@request.FirstName</td>
-                    <td>@request.LastName</td>
-                    <td>@request.Email</td>
-                    <td>@request.Address</td>
-                    <td>@request.RequestDate.ToShortDateString()</td>
-                    <td>
-                        @if (request.Status == "AccountCreated")
+    <div class="ws-page-card p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var request in Model)
                         {
-                            <span class="badge bg-success">Created</span>
-                        }
-                        else if (request.Status == "MeterCreated")
-                        {
-                            <span class="badge bg-success">Meter Created</span>
-                        }
-                        else
-                        {
-                            @request.Status
-                        }
-                    </td>
-                    <td>
-                        @if (request.Status == "Pending")
-                        {
-                            <form asp-action="Approve" asp-route-id="@request.Id" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-success btn-sm"> Approve </button>
-                            </form>
+                            <tr>
+                                <td>@request.FirstName</td>
+                                <td>@request.LastName</td>
+                                <td>@request.Email</td>
+                                <td>@request.Address</td>
+                                <td>@request.RequestDate.ToShortDateString()</td>
+                                <td>
+                                    @if (request.Status == "AccountCreated")
+                                    {
+                                        <span class="badge bg-success">Created</span>
+                                    }
+                                    else if (request.Status == "MeterCreated")
+                                    {
+                                        <span class="badge bg-success">Meter Created</span>
+                                    }
+                                    else if (request.Status == "Pending")
+                                    {
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    }
+                                    else if (request.Status == "Approved")
+                                    {
+                                        <span class="badge bg-info text-dark">Approved</span>
+                                    }
+                                    else if (request.Status == "ForwardedToAdmin")
+                                    {
+                                        <span class="badge bg-primary">Forwarded to Admin</span>
+                                    }
+                                    else if (request.Status == "Rejected")
+                                    {
+                                        <span class="badge bg-danger">Rejected</span>
+                                    }
+                                    else
+                                    {
+                                        @request.Status
+                                    }
+                                </td>
+                                <td>
+                                    @if (request.Status == "Pending")
+                                    {
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <form asp-action="Approve" asp-route-id="@request.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-check-circle me-1"></i> Approve
+                                                </button>
+                                            </form>
 
-                            <form asp-action="Reject" asp-route-id="@request.Id" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm"> Reject </button>
-                            </form>
+                                            <form asp-action="Reject" asp-route-id="@request.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-x-circle me-1"></i> Reject
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                    else if (request.Status == "Approved")
+                                    {
+                                        @if (request.UserId == null)
+                                        {
+                                            <form asp-action="ForwardToAdmin" asp-route-id="@request.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="bi bi-arrow-right-circle me-1"></i> Forward to Admin
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="Meter" asp-action="CreateFromRequest"
+                                                  asp-route-id="@request.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-plus-circle me-1"></i> Create Additional Meter
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else if (request.Status == "ForwardedToAdmin")
+                                    {
+                                        @if (request.UserId == null)
+                                        {
+                                            <a asp-controller="User" asp-action="CreateFromRequest"
+                                               asp-route-id="@request.Id" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-person-plus me-1"></i> Create Client Account
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="Meter" asp-action="CreateFromRequest"
+                                                  asp-route-id="@request.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-plus-circle me-1"></i> Create Additional Meter
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Already processed</span>
+                                    }
+                                </td>
+                            </tr>
                         }
-                        else if (request.Status == "Approved")
-                        {
-                            @if (request.UserId == null)
-                            {
-                                <form asp-action="ForwardToAdmin" asp-route-id="@request.Id"
-                                      method="post" class="d-inline">
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="btn btn-primary btn-sm">
-                                        Forward to Admin
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form asp-controller="Meter"
-                                      asp-action="CreateFromRequest"
-                                      asp-route-id="@request.Id"
-                                      method="post" class="d-inline">
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Create Additional Meter
-                                    </button>
-                                </form>
-                            }
-                        }
-                        else if (request.Status == "ForwardedToAdmin")
-                        {
-                            @if (request.UserId == null)
-                            {
-                                <a asp-controller="User" asp-action="CreateFromRequest" asp-route-id="@request.Id"
-                                class="btn btn-primary btn-sm"> Create Client Account </a>
-                            }
-                            else
-                            {
-                                <form asp-controller="Meter" asp-action="CreateFromRequest" asp-route-id="@request.Id"
-                                      method="post" class="d-inline"> 
-                                      @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="btn btn-success btn-sm"> Create Additional Meter </button>
-                                </form>
-                            }
-                        }
-                        else
-                        {
-                            <span class="text-muted">Already processed</span>
-                        }
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6" class="text-center">
-                    No meter installation requests found.
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                No meter installation requests found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

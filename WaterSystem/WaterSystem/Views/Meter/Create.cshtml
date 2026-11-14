@@ -7,34 +7,45 @@
     var clients = ViewBag.Clients as IEnumerable<User>;
 }
 
-<h1>Create Meter</h1>
-
-<form asp-controller="Meter" asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="form-group mb-3">
-        <label asp-for="UserId" class="control-label">Client</label>
-        <select asp-for="UserId" class="form-control"
-                asp-items="@(new SelectList(clients, "Id", "FullName"))">
-            <option value="">-- Select Client --</option>
-        </select>
-        <span asp-validation-for="UserId" class="text-danger"></span>
+<div class="ws-page-container">
+    <div class="ws-page-header">
+        <h1>Create Meter</h1>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="InstallationDate" class="control-label">Installation Date</label>
-        <input asp-for="InstallationDate" type="date" class="form-control" />
-        <span asp-validation-for="InstallationDate" class="text-danger"></span>
-    </div>
+    <div class="ws-page-card ws-page-card-narrow">
+        <form asp-controller="Meter" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</form>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="UserId" class="form-label">Client</label>
+                <select asp-for="UserId" class="form-control"
+                        asp-items="@(new SelectList(clients, "Id", "FullName"))">
+                    <option value="">-- Select Client --</option>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="InstallationDate" class="form-label">Installation Date</label>
+                <input asp-for="InstallationDate" type="date" class="form-control" />
+                <span asp-validation-for="InstallationDate" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Create
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

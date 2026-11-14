@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<WaterSystem.Data.Entities.Consumption>
 
+@{
+    ViewData["Title"] = "Consumptions";
+}
+
 <ejs-toast id="consumptionToast"
            timeOut="5000"
            showCloseButton="true"
@@ -26,87 +30,102 @@
     </script>
 }
 
-@{
-    ViewData["Title"] = "Consumptions";
-}
+<div class="ws-page-container">
 
-<h1>Consumptions</h1>
+    <div class="ws-page-header ws-page-header-left">
+        <h1>Consumptions</h1>
+    </div>
 
-@if (User.IsInRole("Employee") || User.IsInRole("Client"))
-{
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Create Consumption</a>
-    </p>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Meter</th>
-            <th>Reading Date</th>
-            <th>Meter Reading (m³)</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var consumption in Model)
+    <div class="d-flex justify-content-end mb-3">
+        @if (User.IsInRole("Employee") || User.IsInRole("Client"))
         {
-            <tr>
-                <td>@consumption.MeterId</td>
-                <td>@consumption.Date.ToShortDateString()</td>
-                <td>@consumption.Volume</td>
-                <td>
-                    @if (consumption.Status == "Pending")
-                    {
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    }
-                    else if (consumption.Status == "Approved")
-                    {
-                        <span class="badge bg-success">Approved</span>
-                    }
-                    else if (consumption.Status == "Rejected")
-                    {
-                        <span class="badge bg-danger">Rejected</span>
-                    }
-                </td>
-                <td>
-                    @if (User.IsInRole("Employee"))
-                    {
-                        @if (consumption.Status == "Pending" || consumption.Status == "Rejected")
-                        {
-                            <a asp-action="Edit"
-                               asp-route-id="@consumption.Id"
-                               class="btn btn-warning btn-sm">Edit</a>
-
-                            <a asp-action="Delete"
-                               asp-route-id="@consumption.Id"
-                               class="btn btn-danger btn-sm">Delete</a>
-                        }
-
-                        @if (consumption.Status == "Pending")
-                        {
-                            <form asp-action="Approve"
-                                  asp-route-id="@consumption.Id"
-                                  method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Approve
-                                </button>
-                            </form>
-
-                            <form asp-action="Reject"
-                                  asp-route-id="@consumption.Id"
-                                  method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Reject
-                                </button>
-                            </form>
-                        }
-                    }
-                </td>
-            </tr>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i>
+                Create Consumption
+            </a>
         }
-    </tbody>
-</table>
+    </div>
+
+    <div class="ws-page-card p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Meter</th>
+                        <th>Reading Date</th>
+                        <th>Meter Reading (m³)</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var consumption in Model)
+                    {
+                        <tr>
+                            <td>@consumption.MeterId</td>
+                            <td>@consumption.Date.ToShortDateString()</td>
+                            <td>@consumption.Volume</td>
+                            <td>
+                                @if (consumption.Status == "Pending")
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                                else if (consumption.Status == "Approved")
+                                {
+                                    <span class="badge bg-success">Approved</span>
+                                }
+                                else if (consumption.Status == "Rejected")
+                                {
+                                    <span class="badge bg-danger">Rejected</span>
+                                }
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Employee"))
+                                {
+                                    @if (consumption.Status == "Pending" || consumption.Status == "Rejected")
+                                    {
+                                        <a asp-action="Edit"
+                                           asp-route-id="@consumption.Id"
+                                           class="btn btn-warning btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@consumption.Id"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash me-1"></i> Delete
+                                        </a>
+                                    }
+
+                                    @if (consumption.Status == "Pending")
+                                    {
+                                        <form asp-action="Approve"
+                                              asp-route-id="@consumption.Id"
+                                              method="post"
+                                              class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-check-circle me-1"></i> Approve
+                                            </button>
+                                        </form>
+
+                                        <form asp-action="Reject"
+                                              asp-route-id="@consumption.Id"
+                                              method="post"
+                                              class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-x-circle me-1"></i> Reject
+                                            </button>
+                                        </form>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

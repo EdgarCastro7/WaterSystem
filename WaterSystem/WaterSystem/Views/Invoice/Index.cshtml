@@ -30,96 +30,131 @@
     </script>
 }
 
-<h1>Invoices</h1>
+<div class="ws-page-container">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Invoice Date</th>
-            <th>Client</th>
-            <th>Meter</th>
-            <th>Consumption ID</th>
-            <th>Price</th>
-            <th>Payment Status</th>
-            <th>Approval Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+    <div class="ws-page-header ws-page-header-left">
+        <h1>Invoices</h1>
+    </div>
 
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            @foreach (var invoice in Model)
-            {
-                <tr>
-                    <td>@invoice.DateTime.ToShortDateString()</td>
-                    <td>@invoice.User?.Email</td>
-                    <td>@invoice.MeterId</td>
-                    <td>@invoice.ConsumptionId</td>
-                    <td>@invoice.Price.ToString("C")</td>
+    <div class="ws-page-card p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Invoice Date</th>
+                        <th>Client</th>
+                        <th>Meter</th>
+                        <th>Consumption ID</th>
+                        <th>Price</th>
+                        <th>Payment Status</th>
+                        <th>Approval Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        @if (invoice.Status == "Rejected")
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var invoice in Model)
                         {
-                            <span class="badge bg-secondary">N/A</span>
-                        }
-                        else if (invoice.Payment)
-                        {
-                            <span class="badge bg-success">Paid</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        }
-                    </td>
+                            <tr>
+                                <td>@invoice.DateTime.ToShortDateString()</td>
+                                <td>@invoice.User?.Email</td>
+                                <td>@invoice.MeterId</td>
+                                <td>@invoice.ConsumptionId</td>
+                                <td>@invoice.Price.ToString("C")</td>
 
-                    <td>
-                        @if (invoice.Status == "Pending")
-                        {
-                            <span class="badge bg-warning text-dark">Awaiting approval</span>
-                        }
-                        else if (invoice.Status == "Approved")
-                        {
-                            <span class="badge bg-success">Approved</span>
-                        }
-                        else if (invoice.Status == "Rejected")
-                        {
-                            <span class="badge bg-danger">Rejected</span>
-                        }
-                    </td>
+                                <td>
+                                    @if (invoice.Status == "Rejected")
+                                    {
+                                        <span class="badge bg-secondary">N/A</span>
+                                    }
+                                    else if (invoice.Payment)
+                                    {
+                                        <span class="badge bg-success">Paid</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    }
+                                </td>
 
-                    <td>
-                        @if (User.IsInRole("Employee") && invoice.Status == "Rejected")
-                        {
-                            <a asp-action="Correct"asp-route-id="@invoice.Id"class="btn btn-warning btn-sm">Correct</a>
-                        }
+                                <td>
+                                    @if (invoice.Status == "Pending")
+                                    {
+                                        <span class="badge bg-warning text-dark">Awaiting approval</span>
+                                    }
+                                    else if (invoice.Status == "Approved")
+                                    {
+                                        <span class="badge bg-success">Approved</span>
+                                    }
+                                    else if (invoice.Status == "Rejected")
+                                    {
+                                        <span class="badge bg-danger">Rejected</span>
+                                    }
+                                </td>
 
-                        @if (User.IsInRole("Employee") && invoice.Status == "Pending")
-                        {
-                            <form asp-action="Approve" asp-route-id="@invoice.Id"method="post" class="d-inline">
-                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
-                            </form>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-1">
 
-                            <form asp-action="Reject" asp-route-id="@invoice.Id"method="post" class="d-inline">
-                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                            </form>
-                        }
+                                        @if (User.IsInRole("Employee") && invoice.Status == "Rejected")
+                                        {
+                                            <a asp-action="Correct"
+                                               asp-route-id="@invoice.Id"
+                                               class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil-square me-1"></i> Correct
+                                            </a>
+                                        }
 
-                        @if (User.IsInRole("Client") && invoice.Status == "Approved" && !invoice.Payment)
-                        {
-                            <form asp-action="Pay" asp-route-id="@invoice.Id"method="post" class="d-inline">@Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-primary btn-sm">Pay</button>
-                            </form>
+                                        @if (User.IsInRole("Employee") && invoice.Status == "Pending")
+                                        {
+                                            <form asp-action="Approve"
+                                                  asp-route-id="@invoice.Id"
+                                                  method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-check-circle me-1"></i> Approve
+                                                </button>
+                                            </form>
+
+                                            <form asp-action="Reject"
+                                                  asp-route-id="@invoice.Id"
+                                                  method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-x-circle me-1"></i> Reject
+                                                </button>
+                                            </form>
+                                        }
+
+                                        @if (User.IsInRole("Client") && invoice.Status == "Approved" && !invoice.Payment)
+                                        {
+                                            <form asp-action="Pay"
+                                                  asp-route-id="@invoice.Id"
+                                                  method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="bi bi-credit-card me-1"></i> Pay
+                                                </button>
+                                            </form>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
                         }
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="8" class="text-center">No invoices found.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                No invoices found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

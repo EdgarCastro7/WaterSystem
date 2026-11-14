@@ -4,13 +4,13 @@
     ViewData["Title"] = "User Details";
 }
 
-<h1>User Details</h1>
+<div class="ws-page-container">
+    <div class="ws-page-header">
+        <h1>User Details</h1>
+    </div>
 
-<hr />
-
-<div class="row">
-    <div class="col-md-6">
-        <dl class="row">
+    <div class="ws-page-card ws-page-card-narrow">
+        <dl class="row mb-4">
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.FirstName)
             </dt>
@@ -25,9 +25,7 @@
                 @Html.DisplayFor(model => model.LastName)
             </dd>
 
-            <dt class="col-sm-4">
-                Email
-            </dt>
+            <dt class="col-sm-4">Email</dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Email)
             </dd>
@@ -46,9 +44,7 @@
                 @Html.DisplayFor(model => model.PhoneNumber)
             </dd>
 
-            <dt class="col-sm-4">
-                Status
-            </dt>
+            <dt class="col-sm-4">Status</dt>
             <dd class="col-sm-8">
                 @if (Model.IsActive)
                 {
@@ -61,12 +57,14 @@
             </dd>
         </dl>
 
-        <div class="mt-4">
-            <a asp-action="Edit" asp-route-id="@Model.Id"
-               class="btn btn-primary">Edit</a>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="bi bi-pencil-square me-1"></i> Edit
+            </a>
 
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Back to List
+            </a>
         </div>
     </div>
 </div>
-
