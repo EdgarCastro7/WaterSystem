@@ -77,5 +77,16 @@ namespace WaterSystem.Data
 
             return invoices;
         }
+
+        public async Task<Invoice?> GetInvoiceDetailsAsync(int id)
+        {
+            var invoice = await _context.Invoices
+                .Include(i => i.User)
+                .Include(i => i.Meter)
+                .Include(i => i.Consumption)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return invoice;
+        }
     }
 }

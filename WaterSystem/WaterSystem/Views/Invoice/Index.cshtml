@@ -30,15 +30,16 @@
     </script>
 }
 
-<div class="ws-page-container">
+<div class="ws-page-container ws-invoice-container">
 
     <div class="ws-page-header ws-page-header-left">
         <h1>Invoices</h1>
+        <p class="text-muted mb-0">Manage and review water consumption invoices.</p>
     </div>
 
     <div class="ws-page-card p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-hover align-middle mb-0 ws-invoice-table">
                 <thead>
                     <tr>
                         <th>Invoice Date</th>
@@ -58,11 +59,11 @@
                         @foreach (var invoice in Model)
                         {
                             <tr>
-                                <td>@invoice.DateTime.ToShortDateString()</td>
-                                <td>@invoice.User?.Email</td>
+                                <td class="text-nowrap">@invoice.DateTime.ToString("dd/MM/yyyy")</td>
+                                <td class="ws-invoice-client">@invoice.User?.Email</td>
                                 <td>@invoice.MeterId</td>
                                 <td>@invoice.ConsumptionId</td>
-                                <td>@invoice.Price.ToString("C")</td>
+                                <td class="text-nowrap fw-semibold">@invoice.Price.ToString("C")</td>
 
                                 <td>
                                     @if (invoice.Status == "Rejected")
@@ -95,7 +96,7 @@
                                 </td>
 
                                 <td>
-                                    <div class="d-flex flex-wrap gap-1">
+                                    <div class="ws-invoice-actions">
 
                                         @if (User.IsInRole("Employee") && invoice.Status == "Rejected")
                                         {
@@ -127,16 +128,25 @@
                                             </form>
                                         }
 
-                                        @if (User.IsInRole("Client") && invoice.Status == "Approved" && !invoice.Payment)
+                                        @if (User.IsInRole("Client") && invoice.Status == "Approved")
                                         {
-                                            <form asp-action="Pay"
-                                                  asp-route-id="@invoice.Id"
-                                                  method="post">
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-credit-card me-1"></i> Pay
-                                                </button>
-                                            </form>
+                                            <a asp-action="Details"
+                                               asp-route-id="@invoice.Id"
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-eye me-1"></i> View Invoice
+                                            </a>
+
+                                            @if (!invoice.Payment)
+                                            {
+                                                <form asp-action="Pay"
+                                                      asp-route-id="@invoice.Id"
+                                                      method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        <i class="bi bi-credit-card me-1"></i> Pay
+                                                    </button>
+                                                </form>
+                                            }
                                         }
 
                                     </div>
@@ -147,7 +157,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="8" class="text-center py-5">
                                 No invoices found.
                             </td>
                         </tr>
@@ -158,3 +168,51 @@
     </div>
 
 </div>
+
+<style>
+    .ws-invoice-container {
+        max-width: 1450px;
+    }
+
+    .ws-invoice-table {
+        min-width: 1150px;
+    }
+
+        .ws-invoice-table th,
+        .ws-invoice-table td {
+            padding: 18px 20px;
+            vertical-align: middle;
+        }
+
+        .ws-invoice-table thead th {
+            white-space: nowrap;
+        }
+
+    .ws-invoice-client {
+        min-width: 190px;
+    }
+
+    .ws-invoice-actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 8px;
+        min-width: 190px;
+    }
+
+        .ws-invoice-actions form {
+            display: inline-flex;
+            margin: 0;
+        }
+
+        .ws-invoice-actions .btn {
+            white-space: nowrap;
+        }
+
+    @@media (max-width: 768px) {
+        .ws-invoice-table th,
+        .ws-invoice-table td {
+            padding: 14px 16px;
+        }
+    }
+</style>

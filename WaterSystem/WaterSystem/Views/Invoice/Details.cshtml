@@ -1,0 +1,130 @@
+﻿@model WaterSystem.Models.InvoiceDetailsViewModel
+
+@{
+    ViewData["Title"] = "Invoice Details";
+}
+
+<div class="ws-page-container">
+    <div class="ws-page-header-left">
+        <h1>Invoice Details</h1>
+        <p class="text-muted">Review your water consumption and invoice information.</p>
+    </div>
+
+    <div class="ws-page-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+                <h4 class="mb-1">WaterSystem</h4>
+                <span class="text-muted">Water Consumption Invoice</span>
+            </div>
+            <div class="text-end">
+                <span class="text-muted d-block">Invoice Number</span>
+                <strong>#@Model.Invoice.Id</strong>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <h6 class="text-muted">CUSTOMER</h6>
+                <p class="mb-1">
+                    <strong>@Model.Invoice.User.FirstName @Model.Invoice.User.LastName</strong>
+                </p>
+                <p class="mb-0">@Model.Invoice.User.Email</p>
+            </div>
+
+            <div class="col-md-6">
+                <h6 class="text-muted">INVOICE INFORMATION</h6>
+                <p class="mb-1">
+                    Invoice Date:
+                    <strong>@Model.Invoice.DateTime.ToString("dd/MM/yyyy")</strong>
+                </p>
+                <p class="mb-0">
+                    Meter Number:
+                    <strong>#@Model.Invoice.MeterId</strong>
+                </p>
+            </div>
+        </div>
+
+        <hr />
+
+        <h5 class="mb-3">Consumption Details</h5>
+
+        <div class="table-responsive mb-4">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Previous Reading</td>
+                        <td class="text-end">@Model.PreviousReading?.ToString("N2") m³</td>
+                    </tr>
+                    <tr>
+                        <td>Current Reading</td>
+                        <td class="text-end">@Model.CurrentReading.ToString("N2") m³</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Consumption</strong></td>
+                        <td class="text-end">
+                            <strong>@Model.ConsumptionVolume.ToString("N2") m³</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h5 class="mb-3">Price Breakdown</h5>
+
+        <div class="table-responsive mb-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Consumption Tier</th>
+                        <th class="text-end">Volume (m³)</th>
+                        <th class="text-end">Price per m³</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tier in Model.PriceBreakdown)
+                    {
+                        <tr>
+                            <td>@tier.Tier</td>
+                            <td class="text-end">@tier.Volume.ToString("N2")</td>
+                            <td class="text-end">@tier.PricePerM3.ToString("C")</td>
+                            <td class="text-end">@tier.Subtotal.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end mb-4">
+            <div class="text-end">
+                <span class="text-muted d-block">Total Amount</span>
+                <h3 class="mb-0" style="color:#123B59;">
+                    @Model.TotalPrice.ToString("C")
+                </h3>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="text-muted me-2">Payment Status:</span>
+
+                @if (Model.Invoice.Payment)
+                {
+                    <span class="badge bg-success">Paid</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">Unpaid</span>
+                }
+            </div>
+
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Back to Invoices
+            </a>
+        </div>
+    </div>
+</div>
