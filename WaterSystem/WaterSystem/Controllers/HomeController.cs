@@ -1,5 +1,6 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WaterSystem.Models;
 
 namespace WaterSystem.Controllers
@@ -24,6 +25,18 @@ namespace WaterSystem.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult NotFound()
+        {
+            return View("NotFound");
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
         {
             return View();
         }

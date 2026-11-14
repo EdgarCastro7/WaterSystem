@@ -1416,3 +1416,88 @@ body.ws-body {
         font-size: 26px;
     }
 }
+
+
+/* Error Pages */
+
+.ws-error-container {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 25px;
+}
+
+.ws-error-content {
+    width: 100%;
+    max-width: 1150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+}
+
+.ws-error-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .ws-error-image img {
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+    }
+
+.ws-error-divider {
+    width: 2px;
+    height: 230px;
+    background-color: #B8D8EA;
+}
+
+.ws-error-message {
+    flex: 1;
+    max-width: 450px;
+}
+
+    .ws-error-message h1 {
+        color: #123B59;
+        font-size: 38px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .ws-error-message p {
+        color: #526779;
+        font-size: 17px;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .ws-error-message .btn {
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 7px;
+    }
+
+@media (max-width: 768px) {
+    .ws-error-content {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .ws-error-image img {
+        max-width: 330px;
+    }
+
+    .ws-error-divider {
+        width: 100px;
+        height: 2px;
+    }
+
+    .ws-error-message h1 {
+        font-size: 30px;
+    }
+}

@@ -23,6 +23,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
 
+    options.AccessDeniedPath = "/Home/AccessDenied";
+
     options.Events.OnRedirectToAccessDenied = context =>
     {
         if (context.Request.Path.StartsWithSegments("/api"))
@@ -31,7 +33,7 @@ builder.Services.ConfigureApplicationCookie(options =>
             return Task.CompletedTask;
         }
 
-        context.Response.Redirect(context.RedirectUri);
+        context.Response.Redirect(options.AccessDeniedPath);
         return Task.CompletedTask;
     };
 
@@ -87,6 +89,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseStatusCodePagesWithReExecute("/Home/NotFound");
 
 app.UseAuthentication();
 app.UseAuthorization();
