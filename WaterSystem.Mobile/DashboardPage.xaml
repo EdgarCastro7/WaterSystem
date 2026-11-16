@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="WaterSystem.Mobile.DashboardPage"
+    BackgroundColor="#F3F7FA"
+    Title="Dashboard">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="22">
+
+                <!-- Header -->
+                <Grid
+                    Padding="25,35,25,30"
+                    BackgroundColor="#123B59"
+                    ColumnDefinitions="*,Auto">
+
+                    <VerticalStackLayout
+                        Spacing="6"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="WATERSYSTEM"
+                            FontSize="12"
+                            CharacterSpacing="2"
+                            TextColor="#B9D7E8"/>
+
+                        <Label
+                            Text="Hello, Maria!"
+                            FontSize="27"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                        <Label
+                            Text="Welcome to your account"
+                            FontSize="13"
+                            TextColor="#C5D9E8"/>
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24"
+                        BackgroundColor="White"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="M"
+                            FontSize="21"
+                            FontAttributes="Bold"
+                            TextColor="#123B59"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout
+                    Padding="22,0"
+                    Spacing="18">
+
+                    <!-- Consumption Card -->
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E1EAF0"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="22">
+
+                        <VerticalStackLayout Spacing="12">
+
+                            <Label
+                                Text="CURRENT CONSUMPTION"
+                                FontSize="12"
+                                CharacterSpacing="1"
+                                FontAttributes="Bold"
+                                TextColor="#718096"/>
+
+                            <HorizontalStackLayout
+                                Spacing="6"
+                                VerticalOptions="End">
+
+                                <Label
+                                    Text="18.5"
+                                    FontSize="38"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"/>
+
+                                <Label
+                                    Text="m³"
+                                    FontSize="16"
+                                    TextColor="#718096"
+                                    VerticalOptions="End"
+                                    Margin="0,0,0,7"/>
+                            </HorizontalStackLayout>
+
+                            <Label
+                                Text="Current billing period"
+                                FontSize="13"
+                                TextColor="#3987C9"/>
+
+                            <BoxView
+                                HeightRequest="6"
+                                CornerRadius="3"
+                                Color="#E5EEF4"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Information Cards -->
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="14">
+
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#E1EAF0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="16">
+
+                            <VerticalStackLayout Spacing="9">
+
+                                <Label
+                                    Text="LAST INVOICE"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    TextColor="#718096"/>
+
+                                <Label
+                                    Text="€15.50"
+                                    FontSize="24"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"/>
+
+                                <Border
+                                    BackgroundColor="#DCFCE7"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="8,4"
+                                    HorizontalOptions="Start">
+
+                                    <Label
+                                        Text="Paid"
+                                        FontSize="11"
+                                        FontAttributes="Bold"
+                                        TextColor="#15803D"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="16">
+
+                            <VerticalStackLayout Spacing="9">
+
+                                <Label
+                                    Text="WATER METER"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    TextColor="#718096"/>
+
+                                <Label
+                                    Text="Active"
+                                    FontSize="24"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"/>
+
+                                <Label
+                                    Text="Meter #3"
+                                    FontSize="12"
+                                    TextColor="#718096"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- Quick Access -->
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label
+                            Text="Quick Access"
+                            FontSize="19"
+                            FontAttributes="Bold"
+                            TextColor="#123B59"/>
+
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#E1EAF0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="16">
+
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                <Label
+                                    Text="◷"
+                                    FontSize="25"
+                                    TextColor="#3987C9"
+                                    VerticalOptions="Center"/>
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="Consumption History"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"
+                                    VerticalOptions="Center"
+                                    Margin="12,0"/>
+
+                                <Label
+                                    Grid.Column="2"
+                                    Text="›"
+                                    FontSize="25"
+                                    TextColor="#3987C9"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#E1EAF0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="16">
+
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                <Label
+                                    Text="▤"
+                                    FontSize="24"
+                                    TextColor="#3987C9"
+                                    VerticalOptions="Center"/>
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="My Invoices"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"
+                                    VerticalOptions="Center"
+                                    Margin="12,0"/>
+
+                                <Label
+                                    Grid.Column="2"
+                                    Text="›"
+                                    FontSize="25"
+                                    TextColor="#3987C9"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+                <Label
+                    Text="© 2026 WaterSystem"
+                    FontSize="11"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,18"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Navigation -->
+        <Grid
+            Grid.Row="1"
+            BackgroundColor="White"
+            Padding="12,12"
+            ColumnDefinitions="*,*,*,*">
+
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    Text="⌂"
+                    FontSize="24"
+                    TextColor="#123B59"
+                    HorizontalOptions="Center"/>
+                <Label
+                    Text="Home"
+                    FontSize="10"
+                    TextColor="#123B59"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="4">
+                <Label
+                    Text="◷"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+                <Label
+                    Text="Usage"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Spacing="4">
+                <Label
+                    Text="▤"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+                <Label
+                    Text="Invoices"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="3"
+                Spacing="4">
+                <Label
+                    Text="○"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+                <Label
+                    Text="Profile"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>
