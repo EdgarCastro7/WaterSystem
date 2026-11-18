@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using WaterSystem.Data;
 using WaterSystem.Data.Entities;
 using WaterSystem.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,28 @@ builder.Services.AddDefaultIdentity<User>(options =>
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<DataContext>();
+
+// JWT Authentication
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(
+                    builder.Configuration["Jwt:Key"]!)),
+
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
