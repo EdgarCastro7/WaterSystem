@@ -28,11 +28,11 @@
                             CharacterSpacing="2"
                             TextColor="#B9D7E8"/>
 
-                        <Label
-                            Text="Hello, Maria!"
-                            FontSize="27"
-                            FontAttributes="Bold"
-                            TextColor="White"/>
+                        <Label x:Name="WelcomeLabel" 
+                               Text="Hello!" 
+                               FontSize="27" 
+                               FontAttributes="Bold" 
+                               TextColor="White"/>
 
                         <Label
                             Text="Welcome to your account"
@@ -41,21 +41,28 @@
                     </VerticalStackLayout>
 
                     <Border
-                        Grid.Column="1"
-                        WidthRequest="48"
-                        HeightRequest="48"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 24"
-                        BackgroundColor="White"
-                        VerticalOptions="Center">
+                            Grid.Column="1"
+                            WidthRequest="48"
+                            HeightRequest="48"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 24"
+                            BackgroundColor="White"
+                            VerticalOptions="Center">
 
-                        <Label
-                            Text="M"
-                            FontSize="21"
-                            FontAttributes="Bold"
-                            TextColor="#123B59"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"/>
+                        <Grid>
+                            <Image
+                                x:Name="UserAvatarImage"
+                                Aspect="AspectFill"
+                                IsVisible="False"/>
+                            <Label
+                                    x:Name="UserAvatarInitialLabel"
+                                    Text="U"
+                                    FontSize="21"
+                                    FontAttributes="Bold"
+                                    TextColor="#123B59"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
+                        </Grid>
                     </Border>
                 </Grid>
 
@@ -85,7 +92,8 @@
                                 VerticalOptions="End">
 
                                 <Label
-                                    Text="18.5"
+                                    x:Name="ConsumptionLabel"
+                                    Text="--"
                                     FontSize="38"
                                     FontAttributes="Bold"
                                     TextColor="#123B59"/>
@@ -99,7 +107,8 @@
                             </HorizontalStackLayout>
 
                             <Label
-                                Text="Current billing period"
+                                x:Name="ConsumptionPeriodLabel"
+                                Text="Loading consumption..."
                                 FontSize="13"
                                 TextColor="#3987C9"/>
 
@@ -132,7 +141,8 @@
                                     TextColor="#718096"/>
 
                                 <Label
-                                    Text="€15.50"
+                                    x:Name="InvoicePriceLabel"
+                                    Text="--"
                                     FontSize="24"
                                     FontAttributes="Bold"
                                     TextColor="#123B59"/>
@@ -145,7 +155,8 @@
                                     HorizontalOptions="Start">
 
                                     <Label
-                                        Text="Paid"
+                                        x:Name="InvoiceStatusLabel"
+                                        Text="Loading..."
                                         FontSize="11"
                                         FontAttributes="Bold"
                                         TextColor="#15803D"/>
@@ -170,13 +181,15 @@
                                     TextColor="#718096"/>
 
                                 <Label
-                                    Text="Active"
+                                    x:Name="MeterStatusLabel"
+                                    Text="--"
                                     FontSize="24"
                                     FontAttributes="Bold"
                                     TextColor="#123B59"/>
 
                                 <Label
-                                    Text="Meter #3"
+                                    x:Name="MeterLabel"
+                                    Text="Meter #--"
                                     FontSize="12"
                                     TextColor="#718096"/>
                             </VerticalStackLayout>
