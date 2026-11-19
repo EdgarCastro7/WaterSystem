@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.Http.Headers;
 using WaterSystem.Mobile.Services;
 
 namespace WaterSystem.Mobile;
@@ -7,30 +8,80 @@ public partial class DashboardPage : ContentPage
 {
     private readonly DashboardService _dashboardService;
 
+    private readonly UserInfo _user;
+
+    private const string ApiBaseUrl = "https://10.0.2.2:7276/";
+
     public DashboardPage(UserInfo user)
     {
         InitializeComponent();
 
         _dashboardService = new DashboardService();
 
+        _user = user;
+
         WelcomeLabel.Text = $"Hello, {user.FirstName}!";
 
-        UserAvatarInitialLabel.Text = !string.IsNullOrWhiteSpace(user.FirstName) ? user.FirstName[..1].ToUpperInvariant() : "U";
-
-        if (!string.IsNullOrWhiteSpace(user.ImageUrl) && Uri.TryCreate(user.ImageUrl, UriKind.Absolute, out var imageUri))
-        {
-            UserAvatarImage.Source = ImageSource.FromUri(imageUri);
-            UserAvatarImage.IsVisible = true;
-            UserAvatarInitialLabel.IsVisible = false;
-        }
+        UserAvatarInitialLabel.Text =! string.IsNullOrWhiteSpace(user.FirstName) ? user.FirstName[..1].ToUpperInvariant() : "U";
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
+        await LoadUserAvatarAsync();
+
         await LoadDashboardAsync();
         await LoadLastInvoiceAsync();
+
+        WelcomeLabel.Text = $"Hello, {_user.FirstName}!";
+    }
+
+    private async Task LoadUserAvatarAsync()
+    {
+        var initial = !string.IsNullOrWhiteSpace(_user.FirstName)
+            ? _user.FirstName[..1].ToUpperInvariant()
+            : "U";
+
+        UserAvatarInitialLabel.Text = initial;
+
+        if (string.IsNullOrWhiteSpace(_user.ImageUrl))
+        {
+            UserAvatarImage.IsVisible = false;
+            UserAvatarInitialLabel.IsVisible = true;
+            return;
+        }
+
+        try
+        {
+#if DEBUG
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    (message, certificate, chain, errors) => true
+            };
+
+            using var client = new HttpClient(handler);
+#else
+            using var client = new HttpClient();
+#endif
+
+            var imageUrl = new Uri(
+                new Uri(ApiBaseUrl),
+                _user.ImageUrl);
+
+            var imageBytes = await client.GetByteArrayAsync(imageUrl);
+
+            UserAvatarImage.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+
+            UserAvatarImage.IsVisible = true;
+            UserAvatarInitialLabel.IsVisible = false;
+        }
+        catch
+        {
+            UserAvatarImage.IsVisible = false;
+            UserAvatarInitialLabel.IsVisible = true;
+        }
     }
 
     private async Task LoadDashboardAsync()
@@ -63,7 +114,9 @@ public partial class DashboardPage : ContentPage
 
         MeterStatusLabel.Text = result.IsActive ? "Active" : "Inactive";
 
-        MeterStatusLabel.TextColor = result.IsActive ? Color.FromArgb("#15803D") : Color.FromArgb("#B91C1C");
+        MeterStatusLabel.TextColor = result.IsActive
+            ? Color.FromArgb("#15803D")
+            : Color.FromArgb("#B91C1C");
 
         if (result.PreviousReadingDate.HasValue &&
             result.CurrentReadingDate.HasValue)
@@ -108,5 +161,10 @@ public partial class DashboardPage : ContentPage
             InvoiceStatusLabel.Text = "Unpaid";
             InvoiceStatusLabel.TextColor = Color.FromArgb("#B91C1C");
         }
+    }
+
+    private async void Profile_Tapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new ProfilePage(_user));
     }
 }

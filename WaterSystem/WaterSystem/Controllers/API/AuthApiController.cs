@@ -109,6 +109,8 @@ namespace WaterSystem.Controllers
                     lastName = user.LastName,
                     fullName = user.FullName,
                     email = user.Email,
+                    address = user.Address,
+                    phoneNumber = user.PhoneNumber,
                     imageUrl = user.ImageUrl
                 }
             });

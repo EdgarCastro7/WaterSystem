@@ -337,6 +337,11 @@
             <VerticalStackLayout
                 Grid.Column="3"
                 Spacing="4">
+
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Profile_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+
                 <Label
                     Text="○"
                     FontSize="24"
@@ -348,7 +353,6 @@
                     TextColor="#94A3B8"
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
-
         </Grid>
     </Grid>
 </ContentPage>

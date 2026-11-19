@@ -115,7 +115,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseStatusCodePagesWithReExecute("/Home/NotFound");
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments("/api"),
+    appBuilder =>
+    {
+        appBuilder.UseStatusCodePagesWithReExecute("/Home/NotFound");
+    });
 
 app.UseAuthentication();
 app.UseAuthorization();

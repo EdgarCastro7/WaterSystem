@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="WaterSystem.Mobile.ProfilePage"
+    BackgroundColor="#F3F7FA"
+    NavigationPage.HasNavigationBar="False"
+    Title="Profile">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="22">
+
+                <!-- Header -->
+                <!-- Header -->
+                <Grid
+                    Padding="25,35,25,30"
+                    BackgroundColor="#123B59"
+                    ColumnDefinitions="*,Auto">
+
+                    <VerticalStackLayout 
+                        Spacing="6"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="WATERSYSTEM"
+                            FontSize="12"
+                            CharacterSpacing="2"
+                            TextColor="#B9D7E8"/>
+
+                        <Label
+                            Text="Edit Profile"
+                            FontSize="27"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                        <Label
+                            Text="Manage your personal information"
+                            FontSize="13"
+                            TextColor="#C5D9E8"/>
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24"
+                        BackgroundColor="White"
+                        VerticalOptions="Center">
+
+                        <Image
+                            x:Name="HeaderAvatarImage"
+                            Aspect="AspectFill"
+                            IsVisible="False"/>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout
+                    Padding="22,0"
+                    Spacing="18">
+
+                    <!-- Personal Information -->
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E1EAF0"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="20">
+
+                        <VerticalStackLayout Spacing="15">
+
+                            <Label
+                                Text="PERSONAL INFORMATION"
+                                FontSize="12"
+                                CharacterSpacing="1"
+                                FontAttributes="Bold"
+                                TextColor="#718096"/>
+
+                            <!-- First Name -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label
+                                    Text="First Name"
+                                    FontSize="13"
+                                    TextColor="#123B59"/>
+
+                                <Entry
+                                    x:Name="FirstNameEntry"
+                                    Placeholder="First Name"
+                                    FontSize="14"
+                                    TextColor="#123B59"
+                                    BackgroundColor="#F8FAFC"/>
+                            </VerticalStackLayout>
+
+                            <!-- Last Name -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label
+                                    Text="Last Name"
+                                    FontSize="13"
+                                    TextColor="#123B59"/>
+
+                                <Entry
+                                    x:Name="LastNameEntry"
+                                    Placeholder="Last Name"
+                                    FontSize="14"
+                                    TextColor="#123B59"
+                                    BackgroundColor="#F8FAFC"/>
+                            </VerticalStackLayout>
+
+                            <!-- Address -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label
+                                    Text="Address"
+                                    FontSize="13"
+                                    TextColor="#123B59"/>
+
+                                <Entry
+                                    x:Name="AddressEntry"
+                                    Placeholder="Address"
+                                    FontSize="14"
+                                    TextColor="#123B59"
+                                    BackgroundColor="#F8FAFC"/>
+                            </VerticalStackLayout>
+
+                            <!-- Phone Number -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label
+                                    Text="Phone Number"
+                                    FontSize="13"
+                                    TextColor="#123B59"/>
+
+                                <Entry
+                                    x:Name="PhoneEntry"
+                                    Placeholder="Phone Number"
+                                    Keyboard="Telephone"
+                                    FontSize="14"
+                                    TextColor="#123B59"
+                                    BackgroundColor="#F8FAFC"/>
+                            </VerticalStackLayout>
+
+                            <BoxView
+                                HeightRequest="1"
+                                Color="#E5EEF4"
+                                Margin="0,5"/>
+
+                            <!-- Profile Photo -->
+                            <Label
+                                Text="Profile Photo"
+                                FontSize="13"
+                                TextColor="#123B59"/>
+
+
+                            <Grid ColumnDefinitions="Auto,*"
+                                ColumnSpacing="14">
+
+                                <Border
+                                    WidthRequest="65"
+                                    HeightRequest="65"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 33"
+                                    BackgroundColor="#E5EEF4">
+
+                                    <Grid>
+                                        <Label
+                                            x:Name="AvatarInitialLabel"
+                                            Text="U"
+                                            FontSize="23"
+                                            FontAttributes="Bold"
+                                            TextColor="#123B59"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"/>
+
+                                        <Image
+                                            x:Name="ProfileImage"
+                                            Aspect="AspectFill"
+                                            IsVisible="False"/>
+                                    </Grid>
+                                </Border>
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="8"
+                                    VerticalOptions="Center">
+
+                                    <Button
+                                        Text="Change Profile Photo"
+                                        FontSize="13"
+                                        TextColor="#3987C9"
+                                        BackgroundColor="Transparent"
+                                        Padding="0"
+                                        HorizontalOptions="Start"
+                                        HeightRequest="30"
+                                        Clicked="ChangeProfilePhoto_Clicked"/>
+
+                                    <Label
+                                        x:Name="PhotoStatusLabel"
+                                        Text="No profile photo selected."
+                                        FontSize="11"
+                                        TextColor="#718096"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Update Profile -->
+                    <Button
+                        x:Name="UpdateProfileButton"
+                        Text="Update Profile"
+                        Clicked="UpdateProfile_Clicked"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="#3987C9"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
+                </VerticalStackLayout>
+
+                <Label
+                    Text="© 2026 WaterSystem"
+                    FontSize="11"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,18"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Navigation -->
+        <Grid
+            Grid.Row="1"
+            BackgroundColor="White"
+            Padding="12,12"
+            ColumnDefinitions="*,*,*,*">
+
+            <VerticalStackLayout Spacing="4">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Home_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+
+                <Label 
+                    Text="⌂"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+
+                <Label 
+                    Text="Home"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="4">
+                <Label 
+                    Text="◷"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                       HorizontalOptions="Center"/>
+                <Label 
+                    Text="Usage"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Spacing="4">
+                <Label 
+                    Text="▤"
+                    FontSize="24"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+                <Label 
+                    Text="Invoices"
+                    FontSize="10"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="3"
+                Spacing="4">
+                <Label 
+                    Text="○"
+                    FontSize="24"
+                    TextColor="#123B59"
+                    HorizontalOptions="Center"/>
+                <Label 
+                    Text="Profile"
+                    FontSize="10"
+                    TextColor="#123B59"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
