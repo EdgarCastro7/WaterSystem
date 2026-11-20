@@ -88,6 +88,35 @@ namespace WaterSystem.Mobile.Services
                 return null;
             }
         }
+
+        public async Task<List<ConsumptionHistoryResponse>> GetConsumptionHistoryAsync()
+        {
+            try
+            {
+                var token = await SecureStorage.Default.GetAsync("auth_token");
+
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    return new List<ConsumptionHistoryResponse>();
+                }
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await _httpClient.GetAsync("api/DashboardApi/consumption-history");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<ConsumptionHistoryResponse>();
+                }
+
+                return await response.Content.ReadFromJsonAsync<List<ConsumptionHistoryResponse>>() ?? new List<ConsumptionHistoryResponse>();
+            }
+            catch (Exception)
+            {
+                return new List<ConsumptionHistoryResponse>();
+            }
+        }
+
     }
 
     public class InvoiceResponse
@@ -108,5 +137,15 @@ namespace WaterSystem.Mobile.Services
         public DateTime? CurrentReadingDate { get; set; }
         public DateTime? PreviousReadingDate { get; set; }
         public string? Message { get; set; }
+    }
+
+    public class ConsumptionHistoryResponse
+    {
+        public int Id { get; set; }
+        public int MeterId { get; set; }
+        public DateTime Date { get; set; }
+        public decimal Volume { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public bool IsMeterActive { get; set; }
     }
 }

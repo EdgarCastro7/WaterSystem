@@ -49,14 +49,10 @@ namespace WaterSystem.Controllers.API
 
             foreach (var meter in meters)
             {
-                var consumptions = await _consumptionRepository
-                    .GetConsumptionsAsync(meter);
+                var consumptions = await _consumptionRepository.GetConsumptionsAsync(meter);
 
-                var approvedReadings = consumptions
-                    .Where(c => c.Status == "Approved")
-                    .OrderByDescending(c => c.Date)
-                    .ThenByDescending(c => c.Id)
-                    .ToList();
+                var approvedReadings = consumptions.Where(c => c.Status == "Approved").OrderByDescending(c => c.Date)
+                    .ThenByDescending(c => c.Id).ToList();
 
                 if (approvedReadings.Count > 0)
                 {
@@ -72,10 +68,8 @@ namespace WaterSystem.Controllers.API
                 });
             }
 
-            var selectedMeter = meterData
-                .OrderByDescending(m => m.Readings[0].Date)
-                .ThenByDescending(m => m.Readings[0].Id)
-                .First();
+            var selectedMeter = meterData.OrderByDescending(m => m.Readings[0].Date)
+                .ThenByDescending(m => m.Readings[0].Id).First();
 
             if (selectedMeter.Readings.Count < 2)
             {
@@ -132,6 +126,45 @@ namespace WaterSystem.Controllers.API
                 status = invoice.Status,
                 date = invoice.DateTime
             });
+        }
+
+
+        [HttpGet("consumption-history")]
+        public async Task<IActionResult> GetConsumptionHistory()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var meters = await _meterRepository.GetMeterAsync(user);
+
+            var history = new List<object>();
+
+            foreach (var meter in meters)
+            {
+                var consumptions = await _consumptionRepository.GetConsumptionsAsync(meter);
+
+                var readings = consumptions.OrderByDescending(c => c.Date).ThenByDescending(c => c.Id)
+                    .Select(c => new
+                    {
+                        id = c.Id,
+                        meterId = meter.Id,
+                        date = c.Date,
+                        volume = c.Volume,
+                        status = c.Status,
+                        isMeterActive = meter.IsActive
+                    })
+                    .ToList();
+
+                history.AddRange(readings);
+            }
+
+            var orderedHistory = history.OrderByDescending(c => ((dynamic)c).date).ToList();
+
+            return Ok(orderedHistory);
         }
     }
 }

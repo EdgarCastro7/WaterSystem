@@ -303,7 +303,12 @@ public partial class ProfilePage : ContentPage
 
     private async void Home_Tapped(object sender, TappedEventArgs e)
     {
-        await Navigation.PopAsync();
+        await Navigation.PushAsync(new DashboardPage(_user));
+    }
+
+    private async void Usage_Tapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new UsagePage(_user));
     }
 
     private class PhotoUploadResponse

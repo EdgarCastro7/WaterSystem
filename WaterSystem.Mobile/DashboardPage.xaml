@@ -211,6 +211,9 @@
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 16"
                             Padding="16">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Usage_Tapped"/>
+                            </Border.GestureRecognizers>
 
                             <Grid ColumnDefinitions="Auto,*,Auto">
 
@@ -284,6 +287,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
+
         <!-- Bottom Navigation -->
         <Grid
             Grid.Row="1"
@@ -291,6 +295,7 @@
             Padding="12,12"
             ColumnDefinitions="*,*,*,*">
 
+            <!-- Home -->
             <VerticalStackLayout Spacing="4">
                 <Label
                     Text="⌂"
@@ -304,9 +309,15 @@
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
+            <!-- Usage -->
             <VerticalStackLayout
                 Grid.Column="1"
                 Spacing="4">
+
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Usage_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+
                 <Label
                     Text="◷"
                     FontSize="24"
@@ -319,9 +330,15 @@
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
+            <!-- Invoices -->
             <VerticalStackLayout
                 Grid.Column="2"
                 Spacing="4">
+
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Invoices_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+
                 <Label
                     Text="▤"
                     FontSize="24"
@@ -334,9 +351,10 @@
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
+            <!-- Profile -->
             <VerticalStackLayout
-                Grid.Column="3"
-                Spacing="4">
+                 Grid.Column="3"
+                 Spacing="4">
 
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Profile_Tapped"/>

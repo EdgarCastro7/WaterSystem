@@ -253,6 +253,9 @@
             <VerticalStackLayout
                 Grid.Column="1"
                 Spacing="4">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Usage_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
                 <Label 
                     Text="◷"
                     FontSize="24"
