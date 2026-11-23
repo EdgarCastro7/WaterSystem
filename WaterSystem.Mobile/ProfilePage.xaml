@@ -214,6 +214,18 @@
                         BackgroundColor="#3987C9"
                         CornerRadius="10"
                         HeightRequest="50"/>
+
+                        <!-- Log Out Profile -->
+                <Button
+                        x:Name="LogOutButton"
+                        Text="Log Out"
+                        Clicked="LogOut_Clicked"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="#3987C9"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
                 </VerticalStackLayout>
 
                 <Label
@@ -222,8 +234,8 @@
                     TextColor="#94A3B8"
                     HorizontalOptions="Center"
                     Margin="0,0,0,18"/>
-            </VerticalStackLayout>
-        </ScrollView>
+                </VerticalStackLayout>
+            </ScrollView>
 
         <!-- Bottom Navigation -->
         <Grid
@@ -271,6 +283,9 @@
             <VerticalStackLayout
                 Grid.Column="2"
                 Spacing="4">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Invoices_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
                 <Label 
                     Text="▤"
                     FontSize="24"

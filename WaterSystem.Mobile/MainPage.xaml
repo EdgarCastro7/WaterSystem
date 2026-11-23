@@ -166,12 +166,6 @@
                             FontSize="16"
                             CornerRadius="13"
                             HeightRequest="54"/>
-
-                        <Label
-                            Text="Forgot your password?"
-                            FontSize="13"
-                            TextColor="#3987C9"
-                            HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </Border>
 

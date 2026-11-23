@@ -226,5 +226,10 @@ namespace WaterSystem.Mobile
         {
             await Navigation.PushAsync(new ProfilePage(_user));
         }
+
+        private async void Invoices_Tapped(object sender, TappedEventArgs e)
+        {
+            await Navigation.PushAsync(new InvoicesPage(_user));
+        }   
     }
 }

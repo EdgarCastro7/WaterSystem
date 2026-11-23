@@ -125,6 +125,7 @@ namespace WaterSystem.Mobile.Services
         public decimal Price { get; set; }
         public bool Payment { get; set; }
         public string Status { get; set; } = string.Empty;
+        public int MeterId { get; set; }
         public DateTime Date { get; set; }
     }
 

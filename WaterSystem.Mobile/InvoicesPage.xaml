@@ -1,0 +1,132 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="WaterSystem.Mobile.InvoicesPage"
+    Title="Invoices"
+    BackgroundColor="#F3F7FA"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="22">
+
+                <!-- Header -->
+                <Grid
+                    Padding="25,35,25,30"
+                    BackgroundColor="#123B59"
+                    ColumnDefinitions="*,Auto">
+
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label
+                            Text="WATERSYSTEM"
+                            FontSize="12"
+                            CharacterSpacing="2"
+                            TextColor="#B9D7E8"/>
+
+                        <Label
+                            Text="Invoices"
+                            FontSize="27"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                        <Label
+                            Text="Manage your water bills"
+                            FontSize="13"
+                            TextColor="#C5D9E8"/>
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24"
+                        BackgroundColor="#E5EEF4"
+                        VerticalOptions="Center">
+
+                        <Grid>
+                            <Image
+                                x:Name="UserAvatarImage"
+                                Aspect="AspectFill"
+                                IsVisible="False"/>
+
+                            <Label
+                                x:Name="UserAvatarInitialLabel"
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="#123B59"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Invoice List -->
+                <VerticalStackLayout
+                    Padding="22,0"
+                    Spacing="16">
+
+                    <Label
+                        Text="MY INVOICES"
+                        FontSize="12"
+                        CharacterSpacing="1"
+                        FontAttributes="Bold"
+                        TextColor="#718096"/>
+
+                    <VerticalStackLayout
+                        x:Name="InvoicesList"
+                        Spacing="12"/>
+
+                </VerticalStackLayout>
+
+                <Label
+                    Text="© 2026 WaterSystem"
+                    FontSize="11"
+                    TextColor="#94A3B8"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,18"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Navigation -->
+        <Grid
+            Grid.Row="1"
+            BackgroundColor="White"
+            Padding="12,10"
+            ColumnDefinitions="*,*,*,*">
+
+            <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                <Label Text="⌂" FontSize="20" TextColor="#94A3B8" HorizontalOptions="Center"/>
+                <Label Text="Home" FontSize="10" TextColor="#94A3B8"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Home_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                <Label Text="◷" FontSize="20" TextColor="#94A3B8" HorizontalOptions="Center"/>
+                <Label Text="Usage" FontSize="10" TextColor="#94A3B8"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Usage_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                <Label Text="▤" FontSize="20" TextColor="#123B59" HorizontalOptions="Center"/>
+                <Label Text="Invoices" FontSize="10" TextColor="#123B59"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="3" Spacing="4" HorizontalOptions="Center">
+                <Label Text="○" FontSize="20" TextColor="#94A3B8" HorizontalOptions="Center"/>
+                <Label Text="Profile" FontSize="10" TextColor="#94A3B8"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Profile_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

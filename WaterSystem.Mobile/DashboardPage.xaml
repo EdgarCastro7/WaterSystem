@@ -248,6 +248,10 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="16">
 
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Invoices_Tapped"/>
+                            </Border.GestureRecognizers>
+
                             <Grid ColumnDefinitions="Auto,*,Auto">
 
                                 <Label

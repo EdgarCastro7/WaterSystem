@@ -204,6 +204,9 @@
             <VerticalStackLayout
                 Grid.Column="2"
                 Spacing="4">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Invoices_Tapped"/>
+                </VerticalStackLayout.GestureRecognizers>
 
                 <Label
                     Text="▤"

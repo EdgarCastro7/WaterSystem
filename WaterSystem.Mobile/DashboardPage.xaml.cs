@@ -175,7 +175,7 @@ namespace WaterSystem.Mobile
 
         private async void Invoices_Tapped(object sender, TappedEventArgs e)
         {
-
+            await Navigation.PushAsync(new InvoicesPage(_user));
         }
     }
 }

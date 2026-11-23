@@ -311,6 +311,18 @@ public partial class ProfilePage : ContentPage
         await Navigation.PushAsync(new UsagePage(_user));
     }
 
+    private async void Invoices_Tapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new InvoicesPage(_user));
+    }
+
+    private async void LogOut_Clicked(object sender, EventArgs e)
+    {
+        SecureStorage.Default.Remove("auth_token");
+
+        await Navigation.PopToRootAsync();
+    }
+
     private class PhotoUploadResponse
     {
         public string? ImageUrl { get; set; }
@@ -329,3 +341,4 @@ public partial class ProfilePage : ContentPage
         public string PhoneNumber { get; set; } = string.Empty;
     }
 }
+
