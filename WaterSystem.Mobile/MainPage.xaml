@@ -48,30 +48,16 @@
 
                 <!-- Brand -->
                 <VerticalStackLayout
-                    Spacing="9"
+                    Spacing="16"
                     HorizontalOptions="Center">
 
-                    <Border
-                        BackgroundColor="#FFFFFF"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 24"
-                        WidthRequest="82"
-                        HeightRequest="82"
-                        HorizontalOptions="Center">
-
-                        <Label
-                            Text="💧"
-                            FontSize="43"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"/>
-                    </Border>
-
-                    <Label
-                        Text="WaterSystem"
-                        FontSize="30"
-                        FontAttributes="Bold"
-                        TextColor="White"
-                        HorizontalOptions="Center"/>
+                    <Image
+                        Source="watersystem_logo.png"
+                        Aspect="AspectFit"
+                        WidthRequest="240"
+                        HeightRequest="85"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
 
                     <Label
                         Text="Water management made simple."

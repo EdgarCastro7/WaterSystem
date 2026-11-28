@@ -2,6 +2,11 @@
     ViewData["Title"] = "About Us";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
+}
+
+<!-- Hero -->
 <section class="ws-about-hero">
     <div class="ws-about-hero-overlay"></div>
 
@@ -17,15 +22,22 @@
             Discover how WaterSystem makes water management
             simpler, smarter and more transparent.
         </p>
+
+        <a asp-controller="Account" asp-action="Login" class="btn ws-about-hero-btn">
+            Explore our platform
+            <i class="bi bi-arrow-right ms-2"></i>
+        </a>
     </div>
 </section>
 
-
+<!-- Mission -->
 <section class="ws-about-mission">
     <div class="ws-about-mission-container">
 
         <div class="ws-about-mission-image">
-            <img src="~/images/water-hero.png" alt="Water management and clean water" />
+            <img src="~/images/water-hero.png"
+                 alt="Water management and clean water"
+                 asp-append-version="true" />
         </div>
 
         <div class="ws-about-mission-content">
@@ -43,20 +55,27 @@
                 efficiency to provide a reliable experience for
                 clients and employees.
             </p>
+
+            <div class="ws-mission-highlight">
+                <i class="bi bi-droplet"></i>
+                <span>Smarter technology. Better water management.</span>
+            </div>
         </div>
 
     </div>
 </section>
 
-
-
+<!-- How We Work -->
 <section class="ws-how-we-work">
     <div class="ws-how-container">
 
         <div class="ws-how-heading">
             <span class="ws-section-label">HOW WE WORK</span>
             <h2>A simple process. Smarter management.</h2>
-            <p>Discover how WaterSystem brings every step of water management together.</p>
+            <p>
+                Discover how WaterSystem brings every step
+                of water management together.
+            </p>
         </div>
 
         <div class="ws-how-steps">
@@ -101,8 +120,7 @@
     </div>
 </section>
 
-
-
+<!-- Vision and Values -->
 <section class="ws-vision">
     <div class="ws-vision-container">
 
@@ -117,11 +135,15 @@
         </div>
 
         <div class="ws-values">
+
             <div class="ws-value">
                 <i class="bi bi-lightning-charge"></i>
                 <div>
                     <h3>Efficiency</h3>
-                    <p>Simplifying processes through digital solutions and better management.</p>
+                    <p>
+                        Simplifying processes through digital solutions
+                        and better management.
+                    </p>
                 </div>
             </div>
 
@@ -129,7 +151,10 @@
                 <i class="bi bi-shield-check"></i>
                 <div>
                     <h3>Transparency</h3>
-                    <p>Providing clear and accessible information about water consumption and billing.</p>
+                    <p>
+                        Providing clear and accessible information
+                        about water consumption and billing.
+                    </p>
                 </div>
             </div>
 
@@ -137,29 +162,37 @@
                 <i class="bi bi-recycle"></i>
                 <div>
                     <h3>Responsibility</h3>
-                    <p>Encouraging conscious water consumption and responsible resource management.</p>
+                    <p>
+                        Encouraging conscious water consumption
+                        and responsible resource management.
+                    </p>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </section>
 
-
+<!-- Commitment -->
 <section class="ws-commitment">
     <div class="ws-commitment-overlay"></div>
 
     <div class="ws-commitment-content">
         <span>OUR COMMITMENT</span>
 
-        <h2>Every drop matters.<br />Every action counts.</h2>
+        <h2>
+            Every drop matters.<br />
+            Every action counts.
+        </h2>
 
         <p>
             We are committed to making water management
             more efficient, transparent and accessible.
         </p>
 
-        <a asp-controller="Account" asp-action="Login" class="btn ws-commitment-btn">
+        <a asp-controller="Account"
+           asp-action="Login"
+           class="btn ws-commitment-btn">
             Explore Your Client Area
             <i class="bi bi-arrow-right ms-2"></i>
         </a>

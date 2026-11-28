@@ -30,11 +30,13 @@
                     VerticalOptions="Center"
                     Margin="12,0,0,0">
 
-                    <Label
-                        Text="WATERSYSTEM"
-                        FontSize="12"
-                        CharacterSpacing="2"
-                        TextColor="#B9D7E8"/>
+                    <Image
+                        Source="watersystem_logo.png"
+                        Aspect="AspectFit"
+                        WidthRequest="165"
+                        HeightRequest="43"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
 
                     <Label
                         Text="Invoice Details"

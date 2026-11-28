@@ -1501,3 +1501,633 @@ body.ws-body {
         font-size: 30px;
     }
 }
+
+
+/* ==========================================
+   WATERSYSTEM - NEW HOMEPAGE DESIGN
+   ========================================== */
+
+:root {
+    --ws-navy: #082B4C;
+    --ws-blue: #087DB5;
+    --ws-cyan: #12CFE0;
+    --ws-light: #EDF7FC;
+    --ws-text: #29445A;
+}
+
+/* HERO */
+
+.ws-hero-new {
+    position: relative;
+    overflow: hidden;
+    min-height: 570px;
+    display: flex;
+    align-items: center;
+    background: radial-gradient(circle at 80% 45%, rgba(18, 207, 224, 0.15), transparent 35%), linear-gradient(120deg, #061E35 0%, #082B4C 55%, #075477 100%);
+    color: white;
+}
+
+.ws-hero-new-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/water-hero.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.13;
+}
+
+.ws-hero-new-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 75px 5%;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 55px;
+}
+
+.ws-hero-new-content {
+    max-width: 650px;
+}
+
+.ws-hero-new .ws-hero-label {
+    color: var(--ws-cyan);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    margin-bottom: 22px;
+}
+
+.ws-hero-new h1 {
+    color: white;
+    font-size: clamp(40px, 5vw, 62px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.8px;
+    margin-bottom: 22px;
+}
+
+    .ws-hero-new h1 span {
+        display: block;
+        color: var(--ws-cyan);
+    }
+
+.ws-hero-new-content > p {
+    max-width: 500px;
+    color: #D3E6F0;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.ws-hero-new .ws-hero-buttons {
+    gap: 14px;
+}
+
+.ws-hero-new .ws-hero-primary,
+.ws-hero-new .ws-hero-secondary {
+    padding: 13px 22px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.ws-hero-new .ws-hero-primary {
+    background: var(--ws-cyan);
+    border: 1px solid var(--ws-cyan);
+    color: var(--ws-navy);
+}
+
+    .ws-hero-new .ws-hero-primary:hover {
+        background: white;
+        border-color: white;
+        color: var(--ws-navy);
+    }
+
+.ws-hero-new .ws-hero-secondary {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+}
+
+    .ws-hero-new .ws-hero-secondary:hover {
+        background: white;
+        color: var(--ws-navy);
+    }
+
+/* HERO IMAGE */
+
+.ws-hero-new-image {
+    position: relative;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ws-hero-new-image > img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 28px;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+    }
+
+.ws-floating-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 19px;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+    color: var(--ws-navy);
+}
+
+.ws-floating-card-top {
+    top: 25px;
+    left: -30px;
+}
+
+.ws-floating-card-bottom {
+    bottom: 25px;
+    right: -25px;
+}
+
+.ws-floating-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #DDF7FA;
+    color: var(--ws-blue);
+    font-size: 21px;
+}
+
+.ws-floating-card span,
+.ws-floating-card strong {
+    display: block;
+}
+
+.ws-floating-card span {
+    color: #71869A;
+    font-size: 11px;
+}
+
+.ws-floating-card strong {
+    color: var(--ws-navy);
+    font-size: 14px;
+}
+
+/* HIGHLIGHTS */
+
+.ws-highlights {
+    position: relative;
+    z-index: 3;
+    padding: 0 5%;
+    background: var(--ws-light);
+}
+
+.ws-highlights-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: white;
+    border: 1px solid #DCEBF2;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(8,43,76,0.07);
+    transform: translateY(-35px);
+}
+
+.ws-highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 26px;
+    border-right: 1px solid #E5EEF3;
+}
+
+    .ws-highlight-item:last-child {
+        border-right: none;
+    }
+
+.ws-highlight-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #E3F7FA;
+    color: var(--ws-blue);
+    font-size: 24px;
+}
+
+.ws-highlight-item span {
+    color: var(--ws-blue);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.ws-highlight-item h3 {
+    margin: 3px 0 5px;
+    color: var(--ws-navy);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.ws-highlight-item p {
+    margin: 0;
+    color: #72869A;
+    font-size: 12px;
+}
+
+/* SERVICES */
+
+.ws-services-new {
+    padding: 65px 5% 85px;
+    background: var(--ws-light);
+}
+
+.ws-services-new-container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.ws-services-new-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 35px;
+    margin-bottom: 38px;
+}
+
+    .ws-services-new-heading h2 {
+        color: var(--ws-navy);
+        font-size: 36px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    .ws-services-new-heading > p {
+        max-width: 420px;
+        color: #62798D;
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0 0 5px;
+    }
+
+.ws-services-new .ws-section-label,
+.ws-contact-new .ws-section-label {
+    color: var(--ws-blue);
+}
+
+.ws-services-new-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.ws-service-new-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 290px;
+    padding: 30px;
+    background: white;
+    border: 1px solid #DCEBF2;
+    border-radius: 18px;
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+    .ws-service-new-card:hover {
+        transform: translateY(-7px);
+        border-color: var(--ws-cyan);
+        box-shadow: 0 18px 40px rgba(8,43,76,0.09);
+    }
+
+.ws-service-new-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border-radius: 15px;
+    background: #E3F7FA;
+    color: var(--ws-blue);
+    font-size: 26px;
+}
+
+.ws-service-number {
+    color: #8297A8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    margin-bottom: 10px;
+}
+
+.ws-service-new-card h3 {
+    color: var(--ws-navy);
+    font-size: 19px;
+    font-weight: 750;
+    margin-bottom: 12px;
+}
+
+.ws-service-new-card > p {
+    color: #667D90;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.ws-service-new-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    color: var(--ws-blue);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+    .ws-service-new-link i {
+        font-size: 18px;
+        transition: transform 0.2s ease;
+    }
+
+.ws-service-new-card:hover .ws-service-new-link i {
+    transform: translate(3px, -3px);
+}
+
+/* CLIENT AREA */
+
+.ws-client-new {
+    padding: 65px 5%;
+    background: radial-gradient(circle at 85% 20%, rgba(18,207,224,0.18), transparent 30%), linear-gradient(120deg, #061E35, #0A4165);
+}
+
+.ws-client-new-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+}
+
+.ws-client-new .ws-section-label {
+    color: var(--ws-cyan);
+}
+
+.ws-client-new-content {
+    max-width: 650px;
+}
+
+    .ws-client-new-content h2 {
+        color: white;
+        font-size: 34px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 14px;
+    }
+
+    .ws-client-new-content p {
+        max-width: 570px;
+        color: #C5DCE8;
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+.ws-client-new-action .btn {
+    white-space: nowrap;
+    padding: 14px 24px;
+    border-radius: 9px;
+    background: var(--ws-cyan);
+    color: var(--ws-navy);
+    font-size: 14px;
+    font-weight: 800;
+    transition: all 0.2s ease;
+}
+
+    .ws-client-new-action .btn:hover {
+        background: white;
+        color: var(--ws-navy);
+        transform: translateY(-2px);
+    }
+
+/* CONTACT */
+
+.ws-contact-new {
+    padding: 75px 5%;
+    background: white;
+}
+
+.ws-contact-new-container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.ws-contact-new-heading {
+    margin-bottom: 35px;
+}
+
+    .ws-contact-new-heading h2 {
+        color: var(--ws-navy);
+        font-size: 35px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .ws-contact-new-heading p {
+        color: #62798D;
+        font-size: 14px;
+        margin: 0;
+    }
+
+.ws-contact-new-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.ws-contact-new-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    background: #F5FAFD;
+    border: 1px solid #E1EDF3;
+    border-radius: 14px;
+}
+
+.ws-contact-new-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: #DFF6F9;
+    color: var(--ws-blue);
+    font-size: 21px;
+}
+
+.ws-contact-new-card h3 {
+    color: var(--ws-navy);
+    font-size: 15px;
+    font-weight: 750;
+    margin-bottom: 5px;
+}
+
+.ws-contact-new-card p {
+    color: #667D90;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .ws-hero-new-container {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .ws-hero-new-content {
+        max-width: 100%;
+    }
+
+    .ws-hero-new-image {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .ws-highlights-container {
+        grid-template-columns: 1fr;
+    }
+
+    .ws-highlight-item {
+        border-right: none;
+        border-bottom: 1px solid #E5EEF3;
+    }
+
+        .ws-highlight-item:last-child {
+            border-bottom: none;
+        }
+
+    .ws-services-new-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .ws-hero-new {
+        min-height: auto;
+    }
+
+    .ws-hero-new-container {
+        padding: 55px 6%;
+    }
+
+    .ws-hero-new h1 {
+        font-size: 39px;
+    }
+
+    .ws-hero-new .ws-hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ws-hero-new-image {
+        min-height: 260px;
+    }
+
+        .ws-hero-new-image > img {
+            height: 250px;
+        }
+
+    .ws-floating-card-top {
+        left: -8px;
+        top: 5px;
+    }
+
+    .ws-floating-card-bottom {
+        right: -8px;
+        bottom: 5px;
+    }
+
+    .ws-highlights {
+        padding: 0 5%;
+    }
+
+    .ws-highlight-item {
+        padding: 20px;
+    }
+
+    .ws-services-new {
+        padding: 45px 6% 60px;
+    }
+
+    .ws-services-new-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+        .ws-services-new-heading h2 {
+            font-size: 30px;
+        }
+
+    .ws-services-new-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ws-service-new-card {
+        min-height: 260px;
+    }
+
+    .ws-client-new-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ws-client-new-content h2 {
+        font-size: 29px;
+    }
+
+    .ws-contact-new {
+        padding: 55px 6%;
+    }
+
+    .ws-contact-new-heading h2 {
+        font-size: 30px;
+    }
+
+    .ws-contact-new-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* LOGO */
+.ws-navbar-logo {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}

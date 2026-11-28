@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="~/WaterSystem.styles.css" asp-append-version="true" />
 
     <link href="https://cdn.syncfusion.com/ej2/35.1.43/fluent.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("Styles", required: false)
+    @section Styles {
+        <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
+    }
 </head>
 
 <body class="ws-body">
@@ -33,13 +38,11 @@
         <nav class="navbar navbar-expand-lg ws-navbar">
             <div class="container">
 
-                <a class="navbar-brand ws-brand"
-                   asp-controller="Home"
-                   asp-action="Index">
-                    <span class="ws-brand-icon">
-                        <i class="bi bi-droplet-fill"></i>
-                    </span>
-                    WaterSystem
+                <a class="navbar-brand ws-brand" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/Logo.png"
+                         alt="WaterSystem"
+                         class="ws-navbar-logo"
+                         asp-append-version="true" />
                 </a>
 
                 <button class="navbar-toggler"
